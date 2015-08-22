@@ -1,4 +1,6 @@
-﻿using CrowdPleaser.Utilities;
+﻿using System;
+using CrowdPleaser.Utilities;
+using UnityEditor;
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -8,18 +10,19 @@ public class NavigationField : MonoBehaviour
     public float gridSize = 1.0f;
     public LayerMask inpassable;
 
-    private FloatField _field;
     private float _sqrt2 = Mathf.Sqrt(2);
 
     public void Start()
     {
-        _field = new FloatField(fieldSize);
+        Costs = new FloatField(fieldSize);
         Populate();
     }
 
+    public FloatField Costs { get; private set; }
+
     public void Populate()
     {
-        _field.Clear();
+        Costs.Clear();
         for (int y = 0; y < fieldSize.y; y++)
         {
             for (int x = 0; x < fieldSize.x; x++)
@@ -29,7 +32,7 @@ public class NavigationField : MonoBehaviour
                 Collider2D collider = Physics2D.OverlapArea(rect.min, rect.max, inpassable);
                 if (collider != null)
                 {
-                    _field[x, y] = float.PositiveInfinity;
+                    Costs[x, y] = float.PositiveInfinity;
                 }
             }
         }
@@ -37,23 +40,42 @@ public class NavigationField : MonoBehaviour
 
     public void OnDrawGizmos()
     {
-        if (_field == null)
+        if (Costs == null)
         {
             Start();
         }
         Gizmos.color = Color.red;
+
+        PotentialField potentialField =
+            new PotentialField(
+                fieldSize,
+                this,
+                PotentialPrimer);
+
+        potentialField.Populate();
+
         for (int y = 0; y < fieldSize.y; y++)
         {
             for (int x = 0; x < fieldSize.x; x++)
             {
-                if (float.IsPositiveInfinity(_field[x, y]))
+                Vector2i p = new Vector2i(x, y);
+                if (float.IsPositiveInfinity(Costs[x, y]))
                 {
-                    Vector2i p = new Vector2i(x, y);
                     Rect rect = GetCellRect(p);
                     Gizmos.DrawCube(rect.center, rect.size * 0.95f);
                 }
+
+                float potential = potentialField.Potentials[x, y];
+                Vector2 center = GetCellCenter(p);
+                Handles.Label(center, potential.ToString("F2"));
             }
         }
+    }
+
+    private void PotentialPrimer(Action<Vector2i, float> setPotential)
+    {
+        setPotential(new Vector2i(10, 10), 100);
+        setPotential(new Vector2i(15, 15), 100);
     }
 
     private Vector2 GetCellCenter(Vector2i p)
