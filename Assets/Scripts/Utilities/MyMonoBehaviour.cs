@@ -46,6 +46,14 @@ public abstract class MyMonoBehaviour : MonoBehaviour
         StartCoroutine(PredicatedActionCoroutine(action, predicate));
     }
 
+
+    public TType InstantiateAtMe<TType>(TType prefab) where TType : MonoBehaviour
+    {
+        TType result = (TType)Instantiate(prefab, transform.position, Quaternion.identity);
+        result.transform.SetParent(transform, false);
+        return result;
+    }
+
     private static IEnumerator DelayedActionCoroutine(
         Action action,
         float delaySeconds)

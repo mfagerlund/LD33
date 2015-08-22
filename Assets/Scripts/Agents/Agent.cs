@@ -12,9 +12,9 @@ public class Agent : MonoBehaviour
     public float Rotation { get { return _rigidbody2D.rotation; } set { _rigidbody2D.rotation = value; } }
     //public Vector2 Velocity { get; set; }
     public bool Selected { get; set; }
+    public float health = 20;
     public Weapon[] weaponPrefabs;
     public Weapon currentWeapon;
-
 
     public const float AgentRadius = 0.3f;
 
@@ -33,6 +33,15 @@ public class Agent : MonoBehaviour
     {
         GoToDestination();
         FireAtEnemies();
+    }
+
+    public void TakeDamage(float damageAmount)
+    {
+        health -= damageAmount;
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void FixedUpdate()
