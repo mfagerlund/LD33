@@ -6,6 +6,7 @@ public class NavigationHandler : MonoBehaviour
 {
     private readonly List<PotentialField> _potentialFields = new List<PotentialField>();
     public float updateInterval = 2;
+    public float cullDelay = 0.1f;
 
     public static NavigationHandler Instance { get; private set; }
     public void Start()
@@ -19,7 +20,7 @@ public class NavigationHandler : MonoBehaviour
 
         foreach (PotentialField potentialField in _potentialFields.ToArray())
         {
-            if (Time.time - potentialField.LastRequested > updateInterval * 2)
+            if (Time.time - potentialField.LastRequested > cullDelay)
             {
                 //Debug.LogFormat("Dropping potentialField for {0}", potentialField.Target);
                 _potentialFields.Remove(potentialField);

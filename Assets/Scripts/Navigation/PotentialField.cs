@@ -83,8 +83,6 @@ public class PotentialField
 
     public Vector2 GetSmoothFlow(Vector2 point)
     {
-        //Vector2i position = Vector2i.FromVector2Trunc(rawPosition);
-        //return Flows[position.x, position.y];
         Vector2i ipos = Vector2i.FromVector2Trunc(point);
         Vector2 fracs = new Vector2(point.x - ipos.x, point.y - ipos.y);
 
@@ -141,6 +139,7 @@ public class PotentialField
         float currentPotential = Potentials[destination.x, destination.y];
         if (float.IsNegativeInfinity(currentPotential))
         {
+            // Make it so we can get out if we're stuck here by mistake
             return;
         }
 
@@ -162,9 +161,6 @@ public class PotentialField
             }
         }
 
-        //Gizmos.color = Color.black;
-        //Gizmos.DrawRay(position.ToVector2() - Vector2.one * 0.5f, delta.normal * 0.8f);
-        // This is the best flow we've found so far
         Flows[destination.x, destination.y] = -delta.normal;
         AddTraversal(destination, newPotential);
     }
@@ -194,6 +190,16 @@ public class PotentialField
                 if (float.IsPositiveInfinity(cost))
                 {
                     Potentials[x, y] = float.NegativeInfinity;
+                    Vector2i p = new Vector2i(x, y);
+                    bool foundExit =
+                        TestEscapeDirection(p, DownLeft)
+                        || TestEscapeDirection(p, DownRight)
+                        || TestEscapeDirection(p, UpLeft)
+                        || TestEscapeDirection(p, UpRight)
+                        || TestEscapeDirection(p, Left)
+                        || TestEscapeDirection(p, Right)
+                        || TestEscapeDirection(p, Up)
+                        || TestEscapeDirection(p, Down);
                 }
                 else
                 {
@@ -201,6 +207,27 @@ public class PotentialField
                 }
             }
         }
+    }
+
+    private bool TestEscapeDirection(Vector2i position, Vector2iWithNormal delta)
+    {
+        Vector2i destination = position + delta.vector2i;
+        if (Size.ContainsAsSize(destination) && !float.IsPositiveInfinity(NavigationField.Costs[destination.x, destination.y]))
+        {
+            if (delta.isDiagonal)
+            {
+                // cardinal two-steps are blocked, there is no route.
+                if (float.IsNegativeInfinity(Potentials[position.x + delta.vector2i.x, position.y])
+                    || float.IsNegativeInfinity(Potentials[position.x, position.y + delta.vector2i.y]))
+                {
+                    return false;
+                }
+            }
+            Flows[position.x, position.y] = delta.normal;
+            return true;
+
+        }
+        return false;
     }
 
     private struct Vector2iWithNormal

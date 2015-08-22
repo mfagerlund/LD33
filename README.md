@@ -8,6 +8,11 @@ For this LD I'm again trying Flow Field navigation to facilitate many agents hea
 
 The Flow Fields are designed as follows;
 
+## Cells
+Cells are numbered [0,0]-[Size.x,Size.y]. Each cell is *centered* on the coordinate, so cell [0,0] goes from [-gridSize/2,-gridSize/2]  to [gridSize/2,gridSize/2]. Cell [x,y] [x-gridSize/2,y-gridSize/2]  to [x+gridSize/2,y+gridSize/2].
+
+
+
 ## NavigationField
 Contains a field called costs, which is computed using Physics2D and area intersection. If anything from the "Buildings" layer is found to be colliding with a cell in the field, the cell is set to a PositiveInfinity cost.
 

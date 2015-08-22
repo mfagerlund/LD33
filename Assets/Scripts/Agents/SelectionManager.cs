@@ -8,7 +8,7 @@ public class SelectionManager : MonoBehaviour
     public RectTransform selectedIndicatorParent;
     public RectTransform targetsParent;
     public float selectedIndicatorExpansion = 1.05f;
-
+    public float agentClickSize = 0.2f;
     [Header("Debug stuff")]
     public bool isSelecting = false;
     public Vector2 selectionStart = Vector2.zero;
@@ -73,16 +73,21 @@ public class SelectionManager : MonoBehaviour
         Rect rect = GetSelectionRect();
         foreach (Agent agent in Level.Instance.GetAgents())
         {
-            if (rect.Contains(agent.Position))
+            if (rect.Contains(agent.Position) || Vector2.Distance(rect.center, agent.Position) < Agent.AgentRadius)
             {
-                SelectedAgents.Add(agent);
-                UiFollow2D uiFollow2D = (UiFollow2D)Instantiate(selectedIndicatorPrefab, Vector2.zero, Quaternion.identity);
-                uiFollow2D.sizeExpansion = selectedIndicatorExpansion;
-                uiFollow2D.transform.SetParent(selectedIndicatorParent, true);
-                uiFollow2D.follow = agent.transform;
-                agent.Selected = true;
+                SelectAgent(agent);
             }
         }
+    }
+
+    private void SelectAgent(Agent agent)
+    {
+        SelectedAgents.Add(agent);
+        UiFollow2D uiFollow2D = (UiFollow2D)Instantiate(selectedIndicatorPrefab, Vector2.zero, Quaternion.identity);
+        uiFollow2D.sizeExpansion = selectedIndicatorExpansion;
+        uiFollow2D.transform.SetParent(selectedIndicatorParent, true);
+        uiFollow2D.follow = agent.transform;
+        agent.Selected = true;
     }
 
     private void ClearSelectedAgents()

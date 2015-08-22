@@ -1,8 +1,8 @@
 ﻿TODO:
-* Send agent to destination:
-  Select using box
-  Navigate along map using right click
-  Right click to place navigation flag
+* Flows are pointing the wrong way again
+* When user selects spot that doesn't work, select another spot that does work...
+
+
 * Agent navigation by flowfield
 * Agent AI
 
@@ -14,6 +14,10 @@ DONE:
 * Cost field
 * Flow fields
 * Flow field organizer
+* Send agent to destination:
+  Select using box
+  Navigate along map using right click
+  Right click to place navigation flag
 
 Story:
 The Greenies have no sense of empathy. 

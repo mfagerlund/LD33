@@ -29,7 +29,15 @@ public abstract class Target : MonoBehaviour
 
     public Vector2 GetFlowToTarget(Vector2 position)
     {
+        Vector2 actualTarget;
+        if (IsAtTarget(position, out actualTarget))
+        {
+            Vector2 delta = actualTarget - position;            
+            return delta * 0.1f;
+        }
         PotentialField potentialField = NavigationHandler.Instance.GetPotentialField(this);
         return potentialField.GetSmoothFlow(position);
     }
+
+    protected abstract bool IsAtTarget(Vector2 position, out Vector2 actualTarget);
 }

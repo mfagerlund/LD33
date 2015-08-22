@@ -32,6 +32,18 @@ public class NavigationField : MonoBehaviour
 
     public FloatField Costs { get; private set; }
 
+    public float GetCost(Vector2i pos)
+    {
+        if (fieldSize.ContainsAsSize(pos))
+        {
+            return Costs[pos.x, pos.y];
+        }
+        else
+        {
+            return float.PositiveInfinity;
+        }
+    }
+
     public void Populate()
     {
         Costs.Clear();
@@ -70,6 +82,12 @@ public class NavigationField : MonoBehaviour
                     Rect rect = GetCellRect(p);
                     Gizmos.DrawCube(rect.center, rect.size * 0.95f);
                 }
+                else
+                {
+                    Rect rect = GetCellRect(p);
+                    Gizmos.color = new Color(1, 1, 1, 0.3f);
+                    Gizmos.DrawCube(rect.center, rect.size * 0.95f);
+                }
 
                 if (PotentialField.DebugInstance != null)
                 {
@@ -81,7 +99,7 @@ public class NavigationField : MonoBehaviour
 
                     Vector2 flow = PotentialField.DebugInstance.Flows[x, y];
                     Gizmos.color = Color.black;
-                    Gizmos.DrawRay(center, flow*0.8f);
+                    Gizmos.DrawRay(center, flow * 0.5f);
                 }
             }
         }
@@ -89,7 +107,7 @@ public class NavigationField : MonoBehaviour
 
     private Vector2 GetCellCenter(Vector2i p)
     {
-        Vector2 pos = p.ToVector2() * gridSize - _halfGrid;
+        Vector2 pos = p.ToVector2() * gridSize;
         return pos;
     }
 

@@ -7,7 +7,11 @@ public class Agent : MonoBehaviour
 
     public Target Target { get; set; }
     public Vector2 Position { get { return _rigidbody2D.position; } set { _rigidbody2D.position = value; } }
+    public Vector2 Velocity { get; set; }
     public bool Selected { get; set; }
+
+    public const float AgentRadius = 0.3f;
+
     private Vector2 _wantedSpeed;
 
     public void Start()
@@ -22,8 +26,8 @@ public class Agent : MonoBehaviour
 
     public void FixedUpdate()
     {
-        _rigidbody2D.velocity = Vector2.Lerp(_rigidbody2D.velocity, _wantedSpeed, Level.Instance.agentMomentum);
-        //_rigidbody2D.position += _rigidbody2D.velocity * Time.deltaTime;
+        Velocity = Vector2.Lerp(_wantedSpeed, Velocity, Level.Instance.agentMomentum);
+        _rigidbody2D.position += Velocity * Time.deltaTime;
     }
 
     private void GoToTarget()
