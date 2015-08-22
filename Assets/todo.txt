@@ -1,0 +1,12 @@
+﻿TODO:
+* Cost field
+* Flow fields
+* Agent navigation by flowfield
+* Agent AI
+
+DONE:
+* Shadows
+* Basic Agents
+* Mouse selection
+* Auto populating navigation field
+
