@@ -1,5 +1,4 @@
 ﻿using System;
-using CrowdPleaser.Utilities;
 using UnityEngine;
 
 public class Vector2Field

@@ -1,6 +1,4 @@
-﻿using System;
-using CrowdPleaser.Utilities;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -12,12 +10,24 @@ public class NavigationField : MonoBehaviour
 
     private float _sqrt2 = Mathf.Sqrt(2);
     private Vector2 _halfGrid;
+    private readonly UpdateTimer _updateTimer = new UpdateTimer(2);
+
+    public static NavigationField Instance { get; private set; }
 
     public void Start()
     {
+        Instance = this;
         _halfGrid = new Vector2(gridSize * 0.5f, gridSize * 0.5f);
         Costs = new FloatField(fieldSize);
         Populate();
+    }
+
+    public void FixedUpdate()
+    {
+        if (_updateTimer.ShouldUpdateNow())
+        {
+            Populate();
+        }
     }
 
     public FloatField Costs { get; private set; }
@@ -46,13 +56,6 @@ public class NavigationField : MonoBehaviour
         {
             Start();
         }
-        PotentialField potentialField =
-            new PotentialField(
-                fieldSize,
-                this,
-                PotentialSeeder);
-
-        potentialField.Populate();
 
         for (int y = 0; y < fieldSize.y; y++)
         {
@@ -68,23 +71,20 @@ public class NavigationField : MonoBehaviour
                     Gizmos.DrawCube(rect.center, rect.size * 0.95f);
                 }
 
-                float potential = potentialField.Potentials[x, y];
-                if (potential > PotentialField.UnreachablePotential)
+                if (PotentialField.DebugInstance != null)
                 {
-                    Handles.Label(center, potential.ToString("F2"));
-                }
+                    float potential = PotentialField.DebugInstance.Potentials[x, y];
+                    if (potential > PotentialField.UnreachablePotential)
+                    {
+                        Handles.Label(center, potential.ToString("F2"));
+                    }
 
-                Vector2 flow = potentialField.Flows[x, y];
-                Gizmos.color = Color.black;
-                Gizmos.DrawRay(center, flow * 0.8f);
+                    Vector2 flow = PotentialField.DebugInstance.Flows[x, y];
+                    Gizmos.color = Color.black;
+                    Gizmos.DrawRay(center, flow*0.8f);
+                }
             }
         }
-    }
-
-    private void PotentialSeeder(Action<Vector2i, float> setPotential)
-    {
-        setPotential(new Vector2i(5, 5), 100);
-        //setPotential(new Vector2i(30, 30), 100);
     }
 
     private Vector2 GetCellCenter(Vector2i p)

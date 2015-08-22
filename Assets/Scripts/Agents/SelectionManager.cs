@@ -6,6 +6,7 @@ public class SelectionManager : MonoBehaviour
     public RectTransform selectionPanel;
     public UiFollow2D selectedIndicatorPrefab;
     public RectTransform selectedIndicatorParent;
+    public RectTransform targetsParent;
     public float selectedIndicatorExpansion = 1.05f;
 
     [Header("Debug stuff")]
@@ -14,14 +15,18 @@ public class SelectionManager : MonoBehaviour
     public Vector2 selectionEnd = Vector2.zero;
 
     public List<Agent> SelectedAgents { get; set; }
+    public static SelectionManager Instance { get; set; }
 
     public void Start()
     {
         SelectedAgents = new List<Agent>();
+        Instance = this;
     }
 
     public void Update()
     {
+        Instance = this;
+
         if (Input.GetMouseButtonDown(0))
         {
             isSelecting = true;
@@ -70,26 +75,18 @@ public class SelectionManager : MonoBehaviour
         {
             if (rect.Contains(agent.Position))
             {
-                Debug.Log("Selecting!");
                 SelectedAgents.Add(agent);
-
                 UiFollow2D uiFollow2D = (UiFollow2D)Instantiate(selectedIndicatorPrefab, Vector2.zero, Quaternion.identity);
                 uiFollow2D.sizeExpansion = selectedIndicatorExpansion;
                 uiFollow2D.transform.SetParent(selectedIndicatorParent, true);
                 uiFollow2D.follow = agent.transform;
                 agent.Selected = true;
             }
-            else
-            {
-                Debug.LogFormat("{0} does not contain {1}", rect, agent.Position);
-            }
         }
-        Debug.LogFormat("Selected {0} agents", SelectedAgents.Count);
     }
 
     private void ClearSelectedAgents()
     {
-        Debug.Log("Clearing!");
         foreach (Agent agent in SelectedAgents)
         {
             if (agent != null)

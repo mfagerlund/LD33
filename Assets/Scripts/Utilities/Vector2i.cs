@@ -1,8 +1,6 @@
 ﻿using System;
 using UnityEngine;
 
-namespace CrowdPleaser.Utilities
-{
     [Serializable]
     public struct Vector2i
     {
@@ -158,4 +156,3 @@ namespace CrowdPleaser.Utilities
             return point.x >= 0 && point.y >= 0 && point.x < x && point.y < y;
         }
     }
-}

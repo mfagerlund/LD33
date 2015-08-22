@@ -30,3 +30,4 @@ The field is first populated with the target positions and their potential (typi
 This field will be different for each target area, because the 
 
 ## FlowField
+The FlowField is part of the PotentialField as it's just the direction of potentials.

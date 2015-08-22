@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using CrowdPleaser.Utilities;
 using UnityEngine;
 
 public class PotentialField
@@ -8,15 +7,14 @@ public class PotentialField
     private readonly MaxHeap<CellPotentialHeapEntry> _heap;
 
     public PotentialField(
-        Vector2i size,
         NavigationField navigationField,
-        Action<Action<Vector2i, float>> potentialSeeder)
+        Target target)
     {
-        Size = size;
+        Size = navigationField.fieldSize;
         NavigationField = navigationField;
-        PotentialSeeder = potentialSeeder;
-        Potentials = new FloatField(size);
-        Flows = new Vector2Field(size);
+        Target = target;
+        Potentials = new FloatField(navigationField.fieldSize);
+        Flows = new Vector2Field(navigationField.fieldSize);
 
         _heap =
              new MaxHeap<CellPotentialHeapEntry>
@@ -30,6 +28,12 @@ public class PotentialField
     public FloatField Potentials { get; set; }
     public Vector2Field Flows { get; set; }
     public Action<Action<Vector2i, float>> PotentialSeeder { get; set; }
+    public Target Target { get; set; }
+
+    public float LastRequested { get; set; }
+    public float LastUpdated { get; set; }
+    public static PotentialField DebugInstance { get; set; }
+
     public const float UnreachablePotential = -5000;
 
     private static readonly Vector2iWithNormal DownLeft = new Vector2iWithNormal(new Vector2i(-1, -1));
@@ -44,10 +48,11 @@ public class PotentialField
 
     public void Populate()
     {
+        LastUpdated = Time.time;
         Flows.Clear();
         SetPotentialsFromNavigationField();
-        PotentialSeeder(AddTraversal);
-
+        Target.SeedPotentials(AddTraversal);
+        DebugInstance = this;
         while (_heap.Any())
         {
             CellPotentialHeapEntry cellPotentialHeapEntry = _heap.ExtractDominating();
@@ -73,6 +78,56 @@ public class PotentialField
             TryAddTraversal(position, Up, currentPotential);
 
             CellPotentialHeapEntry.ReturnCellCostHeapEntry(cellPotentialHeapEntry);
+        }
+    }
+
+    public Vector2 GetSmoothFlow(Vector2 point)
+    {
+        //Vector2i position = Vector2i.FromVector2Trunc(rawPosition);
+        //return Flows[position.x, position.y];
+        Vector2i ipos = Vector2i.FromVector2Trunc(point);
+        Vector2 fracs = new Vector2(point.x - ipos.x, point.y - ipos.y);
+
+        Vector2 f00 = GetFlow(ipos);
+        Vector2 f01 = GetFlow(ipos.Move(0, 1));
+        Vector2 f10 = GetFlow(ipos.Move(1, 0));
+        Vector2 f11 = GetFlow(ipos.Move(1, 1));
+        if (f00 == Vector2.zero)
+        {
+            f00 = f01;
+        }
+        else if (f01 == Vector2.zero)
+        {
+            f01 = f00;
+        }
+
+        if (f10 == Vector2.zero)
+        {
+            f10 = f11;
+        }
+        else if (f11 == Vector2.zero)
+        {
+            f11 = f10;
+        }
+
+        Vector2 flow =
+            Vector2.Lerp(
+                Vector2.Lerp(f00, f01, fracs.y),
+                Vector2.Lerp(f10, f11, fracs.y),
+                fracs.x);
+
+        return flow;
+    }
+
+    public Vector2 GetFlow(Vector2i point)
+    {
+        if (Size.ContainsAsSize(point))
+        {
+            return Flows[point.x, point.y];
+        }
+        else
+        {
+            return Vector2.zero;
         }
     }
 

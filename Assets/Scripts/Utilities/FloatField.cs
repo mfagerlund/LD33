@@ -1,5 +1,4 @@
 ﻿using System;
-using CrowdPleaser.Utilities;
 
 public class FloatField
 {

@@ -13,7 +13,7 @@ public class UiFollow2D : MonoBehaviour
         _rectTransform = (RectTransform)transform;
     }
 
-    public void Update()
+    public void LateUpdate()
     {
         if (follow != null)
         {

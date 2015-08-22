@@ -1,10 +1,11 @@
 fileFormatVersion: 2
 guid: 04abd8be2e2244f4887ab5e4d38df003
-timeCreated: 1440226230
+timeCreated: 1440245677
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Selected Frame
+    21300002: UI Misc_0
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -60,6 +61,16 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 9, y: 9, z: 9, w: 9}
+    - name: UI Misc_0
+      rect:
+        serializedVersion: 2
+        x: 23
+        y: 112
+        width: 14
+        height: 14
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
   assetBundleName: 

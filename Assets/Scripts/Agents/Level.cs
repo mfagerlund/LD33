@@ -7,6 +7,10 @@ public class Level : MonoBehaviour
     public static Level Instance { get; private set; }
     public GameObject agentHome;
 
+    [Header("Agent settings")]
+    public float agentMaxSpeed = 1;
+    public float agentMomentum = 0.95f;
+    
     public void Start()
     {
         Instance = this;
@@ -22,5 +26,4 @@ public class Level : MonoBehaviour
         return agentHome.GetComponentsInChildren<Agent>().ToList();
     }
 
-    public float maxAgentSpeed = 1;
 }
