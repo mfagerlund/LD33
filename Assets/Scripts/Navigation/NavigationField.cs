@@ -11,9 +11,11 @@ public class NavigationField : MonoBehaviour
     public LayerMask inpassable;
 
     private float _sqrt2 = Mathf.Sqrt(2);
+    private Vector2 _halfGrid;
 
     public void Start()
     {
+        _halfGrid = new Vector2(gridSize * 0.5f, gridSize * 0.5f);
         Costs = new FloatField(fieldSize);
         Populate();
     }
@@ -44,8 +46,6 @@ public class NavigationField : MonoBehaviour
         {
             Start();
         }
-        Gizmos.color = Color.red;
-
         PotentialField potentialField =
             new PotentialField(
                 fieldSize,
@@ -58,6 +58,7 @@ public class NavigationField : MonoBehaviour
         {
             for (int x = 0; x < fieldSize.x; x++)
             {
+                Gizmos.color = new Color(1, 0.5f, 0.5f, 0.7f);
                 Vector2i p = new Vector2i(x, y);
                 if (float.IsPositiveInfinity(Costs[x, y]))
                 {
@@ -66,28 +67,30 @@ public class NavigationField : MonoBehaviour
                 }
 
                 float potential = potentialField.Potentials[x, y];
-                Vector2 center = GetCellCenter(p);
-                Handles.Label(center, potential.ToString("F2"));
+                if (potential > PotentialField.UnreachablePotential)
+                {
+                    Vector2 center = GetCellCenter(p);
+                    Handles.Label(center, potential.ToString("F2"));
+                }
             }
         }
     }
 
     private void PotentialPrimer(Action<Vector2i, float> setPotential)
     {
-        setPotential(new Vector2i(10, 10), 100);
-        setPotential(new Vector2i(15, 15), 100);
+        setPotential(new Vector2i(5, 5), 100);
+        //setPotential(new Vector2i(30, 30), 100);
     }
 
     private Vector2 GetCellCenter(Vector2i p)
     {
-        Vector2 pos = p.ToVector2() * gridSize;
+        Vector2 pos = p.ToVector2() * gridSize - _halfGrid;
         return pos;
     }
-
 
     private Rect GetCellRect(Vector2i p)
     {
         Vector2 center = GetCellCenter(p);
-        return new Rect(center, Vector2.one * gridSize);
+        return new Rect(center.x - gridSize * 0.5f, center.y - gridSize * 0.5f, gridSize, gridSize);
     }
 }
