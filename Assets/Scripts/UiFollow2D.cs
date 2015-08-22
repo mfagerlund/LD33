@@ -31,7 +31,7 @@ public class UiFollow2D : MonoBehaviour
             _rectTransform.position = Camera.main.WorldToScreenPoint(follow.position);
             if (_collider != null)
             {
-                _rectTransform.sizeDelta = Camera.main.WorldToScreenPoint(_collider.bounds.size)*sizeExpansion - Camera.main.WorldToScreenPoint(Vector2.zero);
+                _rectTransform.sizeDelta = (Camera.main.WorldToScreenPoint(_collider.bounds.size) - Camera.main.WorldToScreenPoint(Vector2.zero)) * sizeExpansion;
             }
         }
         else

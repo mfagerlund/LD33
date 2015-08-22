@@ -10,7 +10,8 @@ public class Level : MonoBehaviour
     [Header("Agent settings")]
     public float agentMaxSpeed = 1;
     public float agentMomentum = 0.95f;
-    
+    public float agentRotationSpeed = 360;
+
     public void Start()
     {
         Instance = this;
