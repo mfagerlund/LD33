@@ -1,8 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class Level : MonoBehaviour
 {
     public static Level Instance { get; private set; }
+    public GameObject agentHome;
 
     public void Start()
     {
@@ -14,5 +17,10 @@ public class Level : MonoBehaviour
         Instance = this;
     }
 
-    public float maxAgentSpeed=1;
+    public List<Agent> GetAgents()
+    {
+        return agentHome.GetComponentsInChildren<Agent>().ToList();
+    }
+
+    public float maxAgentSpeed = 1;
 }

@@ -6,6 +6,9 @@ public class Agent : MonoBehaviour
 {
     private Rigidbody2D _rigidbody2D;
 
+    public Vector2 Position { get { return _rigidbody2D.position; } set { _rigidbody2D.position = value; } }
+    public bool Selected { get; set; }
+
     public void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
