@@ -1,2 +1,4 @@
 # LD33
-My Ludum Dare 33 Entry
+Mattias Fagerlunds Ludum Dare 33 Entry
+
+Commit early, commit often!
