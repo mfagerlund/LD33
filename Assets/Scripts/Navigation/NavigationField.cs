@@ -50,7 +50,7 @@ public class NavigationField : MonoBehaviour
             new PotentialField(
                 fieldSize,
                 this,
-                PotentialPrimer);
+                PotentialSeeder);
 
         potentialField.Populate();
 
@@ -59,7 +59,9 @@ public class NavigationField : MonoBehaviour
             for (int x = 0; x < fieldSize.x; x++)
             {
                 Gizmos.color = new Color(1, 0.5f, 0.5f, 0.7f);
+
                 Vector2i p = new Vector2i(x, y);
+                Vector2 center = GetCellCenter(p);
                 if (float.IsPositiveInfinity(Costs[x, y]))
                 {
                     Rect rect = GetCellRect(p);
@@ -69,14 +71,17 @@ public class NavigationField : MonoBehaviour
                 float potential = potentialField.Potentials[x, y];
                 if (potential > PotentialField.UnreachablePotential)
                 {
-                    Vector2 center = GetCellCenter(p);
                     Handles.Label(center, potential.ToString("F2"));
                 }
+
+                Vector2 flow = potentialField.Flows[x, y];
+                Gizmos.color = Color.black;
+                Gizmos.DrawRay(center, flow * 0.8f);
             }
         }
     }
 
-    private void PotentialPrimer(Action<Vector2i, float> setPotential)
+    private void PotentialSeeder(Action<Vector2i, float> setPotential)
     {
         setPotential(new Vector2i(5, 5), 100);
         //setPotential(new Vector2i(30, 30), 100);

@@ -16,6 +16,7 @@ public class PotentialField
         NavigationField = navigationField;
         PotentialSeeder = potentialSeeder;
         Potentials = new FloatField(size);
+        Flows = new Vector2Field(size);
 
         _heap =
              new MaxHeap<CellPotentialHeapEntry>
@@ -27,6 +28,7 @@ public class PotentialField
     public Vector2i Size { get; set; }
     public NavigationField NavigationField { get; set; }
     public FloatField Potentials { get; set; }
+    public Vector2Field Flows { get; set; }
     public Action<Action<Vector2i, float>> PotentialSeeder { get; set; }
     public const float UnreachablePotential = -5000;
 
@@ -42,6 +44,7 @@ public class PotentialField
 
     public void Populate()
     {
+        Flows.Clear();
         SetPotentialsFromNavigationField();
         PotentialSeeder(AddTraversal);
 
@@ -69,12 +72,9 @@ public class PotentialField
             TryAddTraversal(position, Down, currentPotential);
             TryAddTraversal(position, Up, currentPotential);
 
-
             CellPotentialHeapEntry.ReturnCellCostHeapEntry(cellPotentialHeapEntry);
         }
     }
-
-
 
     private void TryAddTraversal(Vector2i position, Vector2iWithNormal delta, float incomingPotential)
     {
@@ -98,6 +98,8 @@ public class PotentialField
 
         if (delta.isDiagonal)
         {
+            // Only flow diagonally if it can step there cardinally in two steps. If both 
+            // cardinal two-steps are blocked, there is no route.
             if (float.IsNegativeInfinity(Potentials[position.x + delta.vector2i.x, position.y])
                 && float.IsNegativeInfinity(Potentials[position.x, position.y + delta.vector2i.y]))
             {
@@ -105,8 +107,10 @@ public class PotentialField
             }
         }
 
-        Gizmos.color = Color.black;
-        Gizmos.DrawRay(position.ToVector2(), delta.normal * 0.8f);
+        //Gizmos.color = Color.black;
+        //Gizmos.DrawRay(position.ToVector2() - Vector2.one * 0.5f, delta.normal * 0.8f);
+        // This is the best flow we've found so far
+        Flows[destination.x, destination.y] = -delta.normal;
         AddTraversal(destination, newPotential);
     }
 
@@ -160,7 +164,7 @@ public class PotentialField
             if (isDiagonal)
             {
                 // Prefer diagonals...
-                magnitude = magnitude*0.96f;
+                magnitude = magnitude * 0.96f;
             }
         }
     }
