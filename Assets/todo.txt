@@ -1,6 +1,12 @@
 ﻿TODO:
-* Agents fire through buildings
+* Block area around map
+* Leave blood splotches
 * Agent AI
+* Passive / Fearful agents, avoid players when firing is going on
+* Hypnotize monsters! 
+  They become our operatives.
+  They will pick up weapons they come across
+  They stay hypnotized for a limited time period
 
 DONE:
 * Shadows
@@ -17,6 +23,8 @@ DONE:
 * Flows are pointing the wrong way again
 * When user selects spot that doesn't work, select another spot that does work...
 * Agent navigation by flowfield
+* Agents fire through buildings
+* Fade out shells
 
 
 Story:

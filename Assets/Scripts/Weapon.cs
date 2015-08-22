@@ -130,9 +130,10 @@ public class Weapon : MyMonoBehaviour
         {
             GameObject shell = (GameObject)Instantiate(shellPrefab, shellSpawnPosition.position, Quaternion.identity);
             Rigidbody2D rigidbody = shell.GetComponent<Rigidbody2D>();
-            rigidbody.AddForce(shellSpawnPosition.right * Random.Range(1, 2), ForceMode2D.Impulse);
+            Vector2 force = shellSpawnPosition.right * Random.Range(2, 3);
+            rigidbody.AddForce(force, ForceMode2D.Impulse);
             rigidbody.AddTorque(Random.Range(-0.1f, 0.1f));
-            Destroy(shell.gameObject, 10f);
+            //Destroy(shell.gameObject, 10f);
         }
     }
 
@@ -152,7 +153,7 @@ public class Weapon : MyMonoBehaviour
         }
 
         delta = delta.normalized;
-        RaycastHit2D hit = Physics2D.Raycast(_agent.Position + delta * (Agent.AgentRadius + 0.2f), delta, fireDistance, _agent.enemies|Level.Instance.buildings);
+        RaycastHit2D hit = Physics2D.Raycast(_agent.Position + delta * (Agent.AgentRadius + 0.2f), delta, fireDistance, _agent.enemies | Level.Instance.buildings);
         if (hit.collider != targetAgent.GetComponent<Collider2D>())
         {
             return false;
@@ -164,8 +165,7 @@ public class Weapon : MyMonoBehaviour
     {
         if (damagePrefab != null)
         {
-            GameObject damageInstance = (GameObject)Instantiate(damagePrefab, enemyAgent.transform.position, Quaternion.identity);
-            damageInstance.transform.SetParent(enemyAgent.transform);
+            Instantiate(damagePrefab, enemyAgent.transform.position, Quaternion.identity);
         }
     }
 
