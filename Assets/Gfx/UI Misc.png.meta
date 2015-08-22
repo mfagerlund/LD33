@@ -1,11 +1,13 @@
 fileFormatVersion: 2
 guid: 04abd8be2e2244f4887ab5e4d38df003
-timeCreated: 1440245677
+timeCreated: 1440278343
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
     21300000: Selected Frame
-    21300002: UI Misc_0
+    21300002: Target Flag
+    21300004: Shell
+    21300006: Slider
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -61,7 +63,7 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 9, y: 9, z: 9, w: 9}
-    - name: UI Misc_0
+    - name: Target Flag
       rect:
         serializedVersion: 2
         x: 23
@@ -71,6 +73,26 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Shell
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 113
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Slider
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 96
+        width: 27
+        height: 9
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 1, y: 1, z: 1, w: 1}
   spritePackingTag: 
   userData: 
   assetBundleName: 

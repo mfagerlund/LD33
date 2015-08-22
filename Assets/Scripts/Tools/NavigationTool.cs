@@ -6,7 +6,7 @@ public class NavigationTool : Tool
     public override void RightClick(Vector2 position)
     {
         base.RightClick(position);
-        if (SelectionManager.Instance.SelectedAgents.Any())
+        if (SelectionManager.Instance.SelectedControlledAgents.Any())
         {
             Vector2i? pos = GetActualPosition(position);
 

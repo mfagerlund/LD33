@@ -47,7 +47,7 @@ public abstract class MyMonoBehaviour : MonoBehaviour
     }
 
 
-    public TType InstantiateAtMe<TType>(TType prefab) where TType : MonoBehaviour
+    public TType InstantiateAtMe<TType>(TType prefab) where TType : Component
     {
         TType result = (TType)Instantiate(prefab, transform.position, Quaternion.identity);
         result.transform.SetParent(transform, false);

@@ -19,10 +19,15 @@ public class Weapon : MyMonoBehaviour
     public GameObject shellPrefab;
     public GameObject bulletPrefab;
     public GameObject damagePrefab;
+    public LineRenderer lineRendererPrefab;
     public Transform bulletSpawnPosition;
     public Transform shellSpawnPosition;
 
+    public int priority = 0;
+
     public Agent selectedTarget;
+
+    public bool IsOutOfAmmo { get { return ammo == 0 && bulletsInClip == 0; } }
 
     private float _secondsBetweenBullets;
     private Agent _agent;
@@ -32,6 +37,7 @@ public class Weapon : MyMonoBehaviour
         _agent = GetComponentInParent<Agent>();
         _secondsBetweenBullets = 1 / (roundsPerMinute / 60f);
     }
+
 
     public void Update()
     {
@@ -62,17 +68,73 @@ public class Weapon : MyMonoBehaviour
         }
     }
 
-    //private void CheckClearViewToTarget()
-    //{
-    //    if (selectedTarget == null)
-    //    {
-    //        return;
-    //    }
-    //    if (!CanHitAgent(selectedTarget))
-    //    {
-    //        selectedTarget = null;
-    //    }
-    //}
+    public void Fire(Agent enemyAgent)
+    {
+        if (!CanFire)
+        {
+            return;
+        }
+
+        //if (Random.Range(0, 1f) < 0.95f)
+        //{
+        //    return;
+        //}
+
+        _cycling = true;
+        float damage = (Random.Range(0, damageAmount) + Random.Range(0, damageAmount)) * 0.5f;
+        GetComponent<AudioSource>().Play();
+        enemyAgent.TakeDamage(damage);
+        ShowDamage(enemyAgent);
+        ShowFiring(enemyAgent);
+        ShowCasing();
+        Invoke(() => _cycling = false, _secondsBetweenBullets);
+    }
+
+    public bool CanFire { get { return !_cycling && !_reloading && bulletsInClip > 0; } }
+
+    public bool HasTarget { get { return selectedTarget != null; } }
+
+    public void Reload()
+    {
+        if (ammo > 0)
+        {
+            // Play reload sound
+            int wantToLoad = clipSize - bulletsInClip;
+            int canLoad = Mathf.Min(ammo, wantToLoad);
+            bulletsInClip += canLoad;
+            ammo -= canLoad;
+            _reloading = true;
+            Invoke(() => _reloading = false, reloadTime);
+        }
+        else
+        {
+            // Play failed to reload sound
+
+        }
+    }
+
+    private void ShowFiring(Agent enemyAgent)
+    {
+        if (lineRendererPrefab != null)
+        {
+            LineRenderer lineRenderer = InstantiateAtMe<LineRenderer>(lineRendererPrefab);
+            lineRenderer.SetPosition(0, _agent.Position);
+            lineRenderer.SetPosition(1, enemyAgent.Position);
+            Destroy(lineRenderer.gameObject, 0.2f);
+        }
+    }
+
+    private void ShowCasing()
+    {
+        if (shellPrefab != null)
+        {
+            GameObject shell = (GameObject)Instantiate(shellPrefab, shellSpawnPosition.position, Quaternion.identity);
+            Rigidbody2D rigidbody = shell.GetComponent<Rigidbody2D>();
+            rigidbody.AddForce(shellSpawnPosition.right * Random.Range(1, 2), ForceMode2D.Impulse);
+            rigidbody.AddTorque(Random.Range(-0.1f, 0.1f));
+            Destroy(shell.gameObject, 10f);
+        }
+    }
 
     private bool CanHitAgent(Agent targetAgent)
     {
@@ -89,45 +151,13 @@ public class Weapon : MyMonoBehaviour
             return false;
         }
 
-        RaycastHit2D hit = Physics2D.Raycast(_agent.Position + delta * (Agent.AgentRadius + 0.2f), delta, fireDistance);
+        delta = delta.normalized;
+        RaycastHit2D hit = Physics2D.Raycast(_agent.Position + delta * (Agent.AgentRadius + 0.2f), delta, fireDistance, _agent.enemies|Level.Instance.buildings);
         if (hit.collider != targetAgent.GetComponent<Collider2D>())
         {
             return false;
         }
         return true;
-    }
-
-    public void Fire(Agent enemyAgent)
-    {
-        if (!CanFire)
-        {
-            return;
-        }
-
-        _cycling = true;
-        //Debug.DrawLine(bulletSpawnPosition.position, enemyAgent.Position, Color.red, 0.1f);
-        float damage = (Random.Range(0, damageAmount) + Random.Range(0, damageAmount)) * 0.5f;
-        GetComponent<AudioSource>().Play();
-        enemyAgent.TakeDamage(damage);
-        ShowDamage(enemyAgent);
-        Invoke(() => _cycling = false, _secondsBetweenBullets);
-    }
-
-    public bool CanFire { get { return !_cycling && !_reloading && bulletsInClip > 0; } }
-
-    public bool HasTarget { get { return selectedTarget != null; } }
-
-    public void Reload()
-    {
-        if (ammo > 0)
-        {
-            int wantToLoad = clipSize - bulletsInClip;
-            int canLoad = Mathf.Min(ammo, wantToLoad);
-            bulletsInClip += canLoad;
-            ammo -= canLoad;
-            _reloading = true;
-            Invoke(() => _reloading = false, reloadTime);
-        }
     }
 
     private void ShowDamage(Agent enemyAgent)

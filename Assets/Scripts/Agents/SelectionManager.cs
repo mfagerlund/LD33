@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class SelectionManager : MonoBehaviour
@@ -16,6 +17,8 @@ public class SelectionManager : MonoBehaviour
 
     public List<Agent> SelectedAgents { get; set; }
     public static SelectionManager Instance { get; set; }
+
+    public List<Agent> SelectedControlledAgents { get { return SelectedAgents.Where(a => a.IsPlayerControlled).ToList(); } }
 
     public void Start()
     {
@@ -68,8 +71,10 @@ public class SelectionManager : MonoBehaviour
 
     private void AreaSelected()
     {
-        ClearSelectedAgents();
-
+        if (!Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.RightShift))
+        {
+            ClearSelectedAgents();
+        }
         Rect rect = GetSelectionRect();
         foreach (Agent agent in Level.Instance.GetAgents())
         {

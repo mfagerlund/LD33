@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -13,12 +14,23 @@ public class Agent : MonoBehaviour
     //public Vector2 Velocity { get; set; }
     public bool Selected { get; set; }
     public float health = 20;
+    public float maxHealth = 20;
     public Weapon[] weaponPrefabs;
     public Weapon currentWeapon;
-
+    public AgentType agentType;
     public const float AgentRadius = 0.3f;
 
     private List<Weapon> WeaponInstances { get; set; }
+
+    public bool IsPlayerControlled
+    {
+        get
+        {
+            return
+                agentType == AgentType.Saviour
+                || agentType == AgentType.ConvertedMonster;
+        }
+    }
 
     private Vector2 _wantedSpeed;
 
@@ -26,13 +38,19 @@ public class Agent : MonoBehaviour
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         InstantiateWeapons();
-        EquipWeapon(0);
+        health = maxHealth;
     }
 
     public void Update()
     {
         GoToDestination();
         FireAtEnemies();
+        health = Mathf.Min(health + Level.Instance.agentHealthRegeneration * Time.deltaTime, maxHealth);
+
+        if (currentWeapon == null || currentWeapon.IsOutOfAmmo)
+        {
+            EquipWeaponWithLowestPriority();
+        }
     }
 
     public void TakeDamage(float damageAmount)
@@ -66,19 +84,22 @@ public class Agent : MonoBehaviour
         }
     }
 
-    private void EquipWeapon(int index)
+    private void EquipWeaponWithLowestPriority()
     {
-        if (index >= WeaponInstances.Count)
-        {
-            return;
-        }
-
         if (currentWeapon != null)
         {
             currentWeapon.gameObject.SetActive(false);
         }
-        currentWeapon = WeaponInstances[index];
-        currentWeapon.gameObject.SetActive(true);
+
+        currentWeapon =
+            WeaponInstances
+                .OrderBy(w => w.priority)
+                .FirstOrDefault(w => !w.IsOutOfAmmo);
+
+        if (currentWeapon != null)
+        {
+            currentWeapon.gameObject.SetActive(true);
+        }
     }
 
     private void FireAtEnemies()
