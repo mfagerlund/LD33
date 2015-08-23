@@ -129,6 +129,25 @@ public class PotentialField
         }
     }
 
+    public float GetDistanceFrom(Vector2 position)
+    {
+        Vector2i point = Vector2i.FromVector2Round(position);
+        if (Size.ContainsAsSize(point))
+        {
+            float potential = Potentials[point.x, point.y];
+            if (potential <= UnreachablePotential + 0.1f)
+            {
+                return float.PositiveInfinity;
+            }
+
+            return Target.DefaultPotential - potential;
+        }
+        else
+        {
+            return float.PositiveInfinity;
+        }
+    }
+
     private void TryAddTraversal(Vector2i position, Vector2iWithNormal delta, float incomingPotential)
     {
         Vector2i destination = position + delta.vector2i;

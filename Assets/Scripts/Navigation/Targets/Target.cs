@@ -43,5 +43,12 @@ public abstract class Target : MonoBehaviour
         return potentialField.GetSmoothFlow(position);
     }
 
+    public float GetWalkingDistanceFrom(Vector2 position)
+    {
+        PotentialField potentialField = NavigationHandler.Instance.GetPotentialField(this);
+        return potentialField.GetDistanceFrom(position);
+    }
+
+
     public abstract bool IsAtTarget(Vector2 position, out Vector2 actualTarget);
 }

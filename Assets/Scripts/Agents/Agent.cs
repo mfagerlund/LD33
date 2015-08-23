@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts.Utilities;
+using Beehive.BehaviorTrees;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -23,6 +24,9 @@ public class Agent : MonoBehaviour
     public AudioClip deathSound;
     public AudioClip walkingSound;
     public AudioClip arrivedSound;
+
+    public BehaviourTree<AgentBlackboard> Ai { get; set; }
+    public string aiFileName;
     public const float AgentRadius = 0.3f;
 
     private List<Weapon> WeaponInstances { get; set; }
@@ -38,12 +42,28 @@ public class Agent : MonoBehaviour
     }
 
     private Vector2 _wantedSpeed;
+    private static BehaviourTreeCompiler<AgentBlackboard> _compiler;
 
     public void Start()
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         InstantiateWeapons();
-        health = maxHealth;     
+        health = maxHealth;
+
+        if (!string.IsNullOrEmpty(aiFileName))
+        {
+            TextAsset aiCode = Resources.Load<TextAsset>(aiFileName);
+            if (aiCode == null)
+            {
+                Debug.LogFormat("Unable to find code for {0}", aiFileName);
+                return;
+            }
+            AgentBlackboard agentBlackboard = new AgentBlackboard(this);
+            _compiler = _compiler ?? new BehaviourTreeCompiler<AgentBlackboard>();
+            Ai = _compiler.Compile(agentBlackboard, aiCode.text);
+            Debug.Log("Done!");
+            //Debug.Log(behaviourTree);
+        }
     }
 
     public void Update()
@@ -53,7 +73,14 @@ public class Agent : MonoBehaviour
             Target = Level.Instance.SaviorAgentTypeTarget;
         }
 
-        GoToDestination();
+        if (Ai == null)
+        {
+            GoToTarget();
+        }
+        else
+        {
+            Ai.Tick();
+        }
         FireAtEnemies();
         health = Mathf.Min(health + Level.Instance.agentHealthRegeneration * Time.deltaTime, maxHealth);
 
@@ -85,6 +112,35 @@ public class Agent : MonoBehaviour
         {
             float wantedAngle = Mathf.Atan2(_wantedSpeed.y, _wantedSpeed.x) * Mathf.Rad2Deg;
             _rigidbody2D.rotation = Mathf.LerpAngle(wantedAngle, _rigidbody2D.rotation, 1 - Time.deltaTime * Level.Instance.agentRotationSpeed);
+        }
+    }
+
+    public bool GoToTarget()
+    {
+        if (Target != null)
+        {
+            Vector2 flow = Target.GetFlowToTarget(Position);
+            _wantedSpeed = flow * Level.Instance.agentMaxSpeed;
+
+            // We've arrived!
+            Vector2 actualTarget;
+            if (Target.IsAtTarget(Position, out actualTarget))
+            {
+                if (!Target.HasArrived)
+                {
+                    PlaySound(arrivedSound);
+                    Target.HasArrived = true;
+                }
+
+                Target = null;
+                return false;
+            }
+            return true;
+        }
+        else
+        {
+            _wantedSpeed = Vector2.zero;
+            return false;
         }
     }
 
@@ -157,31 +213,5 @@ public class Agent : MonoBehaviour
         }
 
         currentWeapon.TryFire();
-    }
-
-    private void GoToDestination()
-    {
-        if (Target != null)
-        {
-            Vector2 flow = Target.GetFlowToTarget(Position);
-            _wantedSpeed = flow * Level.Instance.agentMaxSpeed;
-
-            // We've arrived!
-            Vector2 actualTarget;
-            if (Target.IsAtTarget(Position, out actualTarget))
-            {
-                if (!Target.HasArrived)
-                {
-                    PlaySound(arrivedSound);
-                    Target.HasArrived = true;
-                }
-
-                Target = null;
-            }
-        }
-        else
-        {
-            _wantedSpeed = Vector2.zero;
-        }
     }
 }

@@ -1,0 +1,6 @@
+(BehaviourTree :RunningTaskHysterisis=10 
+    (?
+        (→  :if=(< DistanceToEnemy 30) /* Comments are allowed */     
+            (→ 
+                (SelectEnemyTarget) 
+                (GoToTarget)))))

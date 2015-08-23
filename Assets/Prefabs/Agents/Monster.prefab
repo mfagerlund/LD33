@@ -146,6 +146,7 @@ MonoBehaviour:
   deathSound: {fileID: 8300000, guid: 89925436e558bef4abee15956903e58e, type: 3}
   walkingSound: {fileID: 8300000, guid: 86ca4c5899385ff489390634a45d9002, type: 3}
   arrivedSound: {fileID: 8300000, guid: 2bf4f0c53d64a2a48b867837b0970459, type: 3}
+  aiFileName: MonsterAi
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
@@ -214,6 +215,10 @@ Prefab:
       propertyPath: arrivedSound
       value: 
       objectReference: {fileID: 8300000, guid: 2bf4f0c53d64a2a48b867837b0970459, type: 3}
+    - target: {fileID: 0}
+      propertyPath: aiFileName
+      value: MonsterAi
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 140092}
