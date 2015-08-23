@@ -18,7 +18,7 @@ public class Weapon : MyMonoBehaviour
     //public GameObject weaponPrefab;
     public GameObject shellPrefab;
     public GameObject bulletPrefab;
-    public GameObject damagePrefab;
+    //public GameObject damagePrefab;
     public LineRenderer lineRendererPrefab;
     public Transform bulletSpawnPosition;
     public Transform shellSpawnPosition;
@@ -84,7 +84,7 @@ public class Weapon : MyMonoBehaviour
         float damage = (Random.Range(0, damageAmount) + Random.Range(0, damageAmount)) * 0.5f;
         GetComponent<AudioSource>().Play();
         enemyAgent.TakeDamage(damage);
-        ShowDamage(enemyAgent);
+        //ShowDamage(enemyAgent);
         ShowFiring(enemyAgent);
         ShowCasing();
         Invoke(() => _cycling = false, _secondsBetweenBullets);
@@ -109,7 +109,6 @@ public class Weapon : MyMonoBehaviour
         else
         {
             // Play failed to reload sound
-
         }
     }
 
@@ -161,13 +160,13 @@ public class Weapon : MyMonoBehaviour
         return true;
     }
 
-    private void ShowDamage(Agent enemyAgent)
-    {
-        if (damagePrefab != null)
-        {
-            Instantiate(damagePrefab, enemyAgent.transform.position, Quaternion.identity);
-        }
-    }
+    //private void ShowDamage(Agent enemyAgent)
+    //{
+    //    if (damagePrefab != null)
+    //    {
+    //        Instantiate(damagePrefab, enemyAgent.transform.position, Quaternion.identity);
+    //    }
+    //}
 
     private void FindNewTarget()
     {

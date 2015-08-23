@@ -139,7 +139,6 @@ public class PotentialField
         float currentPotential = Potentials[destination.x, destination.y];
         if (float.IsNegativeInfinity(currentPotential))
         {
-            // Make it so we can get out if we're stuck here by mistake
             return;
         }
 
@@ -251,47 +250,3 @@ public class PotentialField
         }
     }
 }
-
-//public class NavigableField
-//{
-//    public NavigableField(Vector2i size)
-//    {
-//        Size = size;
-//        Clear();
-//    }
-
-//    public Vector2i Size { get; private set; }
-//    public float[,] Cost { get; private set; }
-
-//    public void Populate()
-//    {
-
-//    }
-
-//    private void Clear()
-//    {
-//        Cost = new float[Size.x, Size.y];
-//    }
-//}
-
-//public class CostField
-//{
-//    public CostField(Vector2i size)
-//    {
-//        Size = size;
-//        Clear();
-//    }
-
-//    public Vector2i Size { get; private set; }
-//    public float[,] Cost { get; private set; }
-
-//    public void Populate()
-//    {
-
-//    }
-
-//    private void Clear()
-//    {
-//        Cost = new float[Size.x, Size.y];
-//    }
-//}

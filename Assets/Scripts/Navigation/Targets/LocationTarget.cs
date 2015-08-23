@@ -36,7 +36,7 @@ public class LocationTarget : Target
         return "LocationTarget: " + string.Join(", ", Locations.Select(c => c.ToString()).ToArray());
     }
 
-    protected override bool IsAtTarget(Vector2 position, out Vector2 actualTarget)
+    public override bool IsAtTarget(Vector2 position, out Vector2 actualTarget)
     {
         Vector2i rounded = Vector2i.FromVector2Round(position);
         if (Locations.Contains(rounded))

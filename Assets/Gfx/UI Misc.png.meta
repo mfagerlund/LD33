@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 04abd8be2e2244f4887ab5e4d38df003
-timeCreated: 1440278343
+timeCreated: 1440311473
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -8,6 +8,7 @@ TextureImporter:
     21300002: Target Flag
     21300004: Shell
     21300006: Slider
+    21300008: Blood Splotches
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -93,6 +94,16 @@ TextureImporter:
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 1, y: 1, z: 1, w: 1}
+    - name: Blood Splotches
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 67
+        width: 42
+        height: 44
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
   assetBundleName: 

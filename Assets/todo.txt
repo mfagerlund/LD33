@@ -1,12 +1,13 @@
 ﻿TODO:
-* Block area around map
 * Leave blood splotches
+* Leave corpses
 * Agent AI
 * Passive / Fearful agents, avoid players when firing is going on
 * Hypnotize monsters! 
   They become our operatives.
   They will pick up weapons they come across
   They stay hypnotized for a limited time period
+* More easing
 
 DONE:
 * Shadows
@@ -25,6 +26,7 @@ DONE:
 * Agent navigation by flowfield
 * Agents fire through buildings
 * Fade out shells
+* Block area around map
 
 
 Story:

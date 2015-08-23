@@ -7,6 +7,7 @@ public class Level : MonoBehaviour
     public static Level Instance { get; private set; }
     public GameObject agentHome;
     public LayerMask buildings;
+    public bool monstersRevealed;
 
     [Header("Agent settings")]
     public float agentMaxSpeed = 1;

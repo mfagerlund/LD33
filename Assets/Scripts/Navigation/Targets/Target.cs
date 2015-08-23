@@ -39,5 +39,5 @@ public abstract class Target : MonoBehaviour
         return potentialField.GetSmoothFlow(position);
     }
 
-    protected abstract bool IsAtTarget(Vector2 position, out Vector2 actualTarget);
+    public abstract bool IsAtTarget(Vector2 position, out Vector2 actualTarget);
 }

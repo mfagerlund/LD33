@@ -1,6 +1,6 @@
 public enum AgentType
 {
-    Saviour,
+    Savior,
     ViolentMonster,
     PassiveMonster,
     ConvertedMonster

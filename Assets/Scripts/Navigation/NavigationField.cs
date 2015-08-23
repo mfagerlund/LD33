@@ -52,6 +52,15 @@ public class NavigationField : MonoBehaviour
             for (int x = 0; x < fieldSize.x; x++)
             {
                 Vector2i p = new Vector2i(x, y);
+
+                // Block the border
+                if (fieldSize.IsOnPerimeter(p))
+                {
+                    Costs[x, y] = float.PositiveInfinity;
+                    continue;
+                }
+
+                // Block buildings
                 Rect rect = GetCellRect(p);
                 Collider2D collider = Physics2D.OverlapArea(rect.min, rect.max, inpassable);
                 if (collider != null)

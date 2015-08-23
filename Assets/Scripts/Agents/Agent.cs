@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Agent : MonoBehaviour
@@ -18,6 +19,8 @@ public class Agent : MonoBehaviour
     public Weapon[] weaponPrefabs;
     public Weapon currentWeapon;
     public AgentType agentType;
+    public GameObject[] bloodSpillPrefabs;
+    public AudioClip deathSound;
     public const float AgentRadius = 0.3f;
 
     private List<Weapon> WeaponInstances { get; set; }
@@ -27,7 +30,7 @@ public class Agent : MonoBehaviour
         get
         {
             return
-                agentType == AgentType.Saviour
+                agentType == AgentType.Savior
                 || agentType == AgentType.ConvertedMonster;
         }
     }
@@ -56,10 +59,22 @@ public class Agent : MonoBehaviour
     public void TakeDamage(float damageAmount)
     {
         health -= damageAmount;
+
+        if (health <= 0 || health > Random.Range(0, 20))
+        {
+            AddBloodSpill();
+        }
+
         if (health <= 0)
         {
-            Destroy(gameObject);
+            Die();
         }
+    }
+
+    private void Die()
+    {
+        AudioSource.PlayClipAtPoint(deathSound, Position);
+        Destroy(gameObject);
     }
 
     public void FixedUpdate()
@@ -70,6 +85,18 @@ public class Agent : MonoBehaviour
             float wantedAngle = Mathf.Atan2(_wantedSpeed.y, _wantedSpeed.x) * Mathf.Rad2Deg;
             _rigidbody2D.rotation = Mathf.LerpAngle(wantedAngle, _rigidbody2D.rotation, 1 - Time.deltaTime * Level.Instance.agentRotationSpeed);
         }
+    }
+
+    private void AddBloodSpill()
+    {
+        if (!bloodSpillPrefabs.Any())
+        {
+            return;
+        }
+
+        GameObject prefab = bloodSpillPrefabs[Random.Range(0, bloodSpillPrefabs.Length)];
+        GameObject blood = (GameObject)Instantiate(prefab, Position + Random.insideUnitCircle * 0.5f, Quaternion.identity);
+        blood.transform.Rotate(0, 0, Random.Range(0, 360));
     }
 
     private void InstantiateWeapons()
@@ -118,6 +145,13 @@ public class Agent : MonoBehaviour
         {
             Vector2 flow = Target.GetFlowToTarget(Position);
             _wantedSpeed = flow * Level.Instance.agentMaxSpeed;
+
+            // We've arrived!
+            Vector2 actualTarget;
+            if (Target.IsAtTarget(Position, out actualTarget))
+            {
+                Target = null;
+            }
         }
         else
         {
