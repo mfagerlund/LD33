@@ -43,11 +43,16 @@ public class Agent : MonoBehaviour
     {
         _rigidbody2D = GetComponent<Rigidbody2D>();
         InstantiateWeapons();
-        health = maxHealth;
+        health = maxHealth;     
     }
 
     public void Update()
     {
+        if (agentType == AgentType.ViolentMonster)
+        {
+            Target = Level.Instance.SaviorAgentTypeTarget;
+        }
+
         GoToDestination();
         FireAtEnemies();
         health = Mathf.Min(health + Level.Instance.agentHealthRegeneration * Time.deltaTime, maxHealth);
@@ -76,7 +81,7 @@ public class Agent : MonoBehaviour
     public void FixedUpdate()
     {
         _rigidbody2D.velocity = Vector2.Lerp(_wantedSpeed, _rigidbody2D.velocity, Level.Instance.agentMomentum);
-        if (currentWeapon != null && !currentWeapon.HasTarget)
+        if (currentWeapon != null && !currentWeapon.HasTarget && _wantedSpeed.sqrMagnitude > 0.01f)
         {
             float wantedAngle = Mathf.Atan2(_wantedSpeed.y, _wantedSpeed.x) * Mathf.Rad2Deg;
             _rigidbody2D.rotation = Mathf.LerpAngle(wantedAngle, _rigidbody2D.rotation, 1 - Time.deltaTime * Level.Instance.agentRotationSpeed);

@@ -11,6 +11,7 @@ public class TextScroller : MyMonoBehaviour
     public string text;
 
     public int currentLine = 0;
+    public float startDelay = 8f;
     public float fadeInTime = 0.2f;
     public float rowShowTime = 5f;
     public float fadeOutTime = 0.2f;
@@ -23,6 +24,8 @@ public class TextScroller : MyMonoBehaviour
     {
         _text = GetComponent<Text>();
         _canvasGroup = GetComponent<CanvasGroup>();
+        _text.text = "";
+        yield return new WaitForSeconds(startDelay);
 
         while (true)
         {
@@ -31,9 +34,9 @@ public class TextScroller : MyMonoBehaviour
             string line = lines[currentLine];
             _text.text = line;
 
-            yield return StartCoroutine(TimeEase(f =>_canvasGroup.alpha = f, 0, 1, fadeInTime, Ease.FromType(EaseType.CubeIn)));            
+            yield return StartCoroutine(TimeEase(f => _canvasGroup.alpha = f, 0, 1, fadeInTime, Ease.FromType(EaseType.CubeIn)));
             yield return new WaitForSeconds(rowShowTime);
-            yield return StartCoroutine(TimeEase(f =>_canvasGroup.alpha = f, 1, 0, fadeOutTime, Ease.FromType(EaseType.CubeOut)));
+            yield return StartCoroutine(TimeEase(f => _canvasGroup.alpha = f, 1, 0, fadeOutTime, Ease.FromType(EaseType.CubeOut)));
             yield return new WaitForSeconds(timeBetweenRows);
             currentLine++;
         }

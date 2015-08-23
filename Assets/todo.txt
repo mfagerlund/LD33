@@ -2,9 +2,9 @@
 * Agent AI
 * Passive / Fearful monsters, avoid players when firing is going on
 * Hypnotize monsters! 
-  They become our operatives.
-  They will pick up weapons they come across
-  They stay hypnotized for a limited time period
+  * They become our operatives.
+  * They will pick up weapons they come across
+  * They stay hypnotized for a limited time period
 * More easing
 * Work in story
 * Trigger reveal
@@ -14,7 +14,6 @@
 * Select weapon
 * Show icons for selected saviors
 * acks:http://www.bfxr.net/
-* Restart level
 
 
 MAYBE:
@@ -40,4 +39,5 @@ DONE:
 * Fade out shells
 * Block area around map
 * Leave blood splotches
+* Restart level
 

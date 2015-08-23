@@ -9,6 +9,7 @@ public class Level : MonoBehaviour
     public LayerMask buildings;
     public bool monstersRevealed;
     public Transform garbageHome;
+    public AgentTypeTarget SaviorAgentTypeTarget { get; set; }
 
     [Header("Agent settings")]
     public float agentMaxSpeed = 1;
@@ -19,6 +20,7 @@ public class Level : MonoBehaviour
     public void Start()
     {
         Instance = this;
+        SaviorAgentTypeTarget = GetComponent<AgentTypeTarget>();
     }
 
     public void Awake()

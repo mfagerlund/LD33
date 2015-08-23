@@ -6,6 +6,8 @@ public abstract class Target : MonoBehaviour
     public const float DefaultPotential = 100;
     private Action<Vector2i, float> _setPotential;
 
+    public bool destroyOnInactive = true;
+
     public void SeedPotentials(Action<Vector2i, float> setPotential)
     {
         _setPotential = setPotential;
@@ -21,7 +23,7 @@ public abstract class Target : MonoBehaviour
 
     public virtual void Update()
     {
-        if (!NavigationHandler.Instance.GetIsTargetActive(this))
+        if (destroyOnInactive && !NavigationHandler.Instance.GetIsTargetActive(this))
         {
             Destroy(gameObject);
         }
