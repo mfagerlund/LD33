@@ -8,11 +8,14 @@
 * More easing
 * Work in story
 * Trigger reveal
+  * Glitching
+  * Perception Filtering Device (can't be disabled)
 * Replace cubes with savior/monster/passive monster sprites
 * Select weapon
 * Show icons for selected saviors
 * acks:http://www.bfxr.net/
 * Restart level
+
 
 MAYBE:
 * Leave corpses
