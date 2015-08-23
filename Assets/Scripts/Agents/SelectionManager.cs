@@ -21,7 +21,6 @@ public class SelectionManager : MonoBehaviour
 
     public List<Agent> SelectedControlledAgents { get { return SelectedAgents.Where(a => a.IsPlayerControlled).ToList(); } }
 
-
     public void Start()
     {
         SelectedAgents = new List<Agent>();
@@ -50,6 +49,17 @@ public class SelectionManager : MonoBehaviour
         }
 
         DrawSelection();
+    }
+
+    public void HypnotizeSelected()
+    {
+        foreach (Agent agent in SelectedAgents)
+        {
+            if (agent.agentType == AgentType.PassiveMonster)
+            {
+                agent.TryToHypnotize();
+            }
+        }
     }
 
     private Rect GetSelectionRect()

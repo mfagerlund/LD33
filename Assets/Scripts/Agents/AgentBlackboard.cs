@@ -13,6 +13,16 @@ public class AgentBlackboard : BehaviourReflectionTreeBlackboard<AgentBlackboard
 
     public Agent Agent { get; set; }
 
+    public bool Hypnotized { get { return Agent.Hypnotized; } }
+
+    public float TimeSinceViolence
+    {
+        get
+        {
+            return Time.time - Level.Instance.LastViolence;
+        }
+    }
+
     public float DistanceToEnemy
     {
         get
@@ -31,6 +41,12 @@ public class AgentBlackboard : BehaviourReflectionTreeBlackboard<AgentBlackboard
         yield return TaskState.Success;
     }
 
+    public IEnumerator<TaskState> SelectHideFromSavioursTarget()
+    {
+        Agent.Target = Level.Instance.HideFromSaviorsTarget;
+        yield return TaskState.Success;
+    }
+
     public IEnumerator<TaskState> GoToTarget()
     {
         Agent.Target = Level.Instance.SaviorAgentTypeTarget;
@@ -45,6 +61,7 @@ public class AgentBlackboard : BehaviourReflectionTreeBlackboard<AgentBlackboard
     public IEnumerator<TaskState> Wander()
     {
         Agent.Target = null;
+        Agent.RotateTowards(Mathf.PerlinNoise(Agent.Position.x, Agent.Position.y + Time.time / 30) * 360);
         Agent.WantedSpeed = Vector2.zero;
         yield return TaskState.Success;
     }

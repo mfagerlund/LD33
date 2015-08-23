@@ -49,6 +49,9 @@ public abstract class Target : MonoBehaviour
         return potentialField.GetDistanceFrom(position);
     }
 
-
     public abstract bool IsAtTarget(Vector2 position, out Vector2 actualTarget);
+
+    public virtual void Finished(PotentialField potentialField)
+    {
+    }
 }

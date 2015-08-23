@@ -30,6 +30,8 @@ public class Agent : MonoBehaviour
     public string aiFileName;
     public const float AgentRadius = 0.3f;
 
+    public bool Hypnotized { get; set; }
+
     private List<Weapon> WeaponInstances { get; set; }
 
     public bool IsPlayerControlled
@@ -116,8 +118,37 @@ public class Agent : MonoBehaviour
         if (currentWeapon != null && !currentWeapon.HasTarget && WantedSpeed.sqrMagnitude > 0.01f)
         {
             float wantedAngle = Mathf.Atan2(WantedSpeed.y, WantedSpeed.x) * Mathf.Rad2Deg;
-            _rigidbody2D.rotation = Mathf.LerpAngle(wantedAngle, _rigidbody2D.rotation, 1 - Time.deltaTime * Level.Instance.agentRotationSpeed);
+            RotateTowards(wantedAngle);
         }
+    }
+
+    public void RotateTowards(float wantedAngle)
+    {
+        _rigidbody2D.rotation = Mathf.LerpAngle(wantedAngle, _rigidbody2D.rotation, 1 - Time.deltaTime * Level.Instance.agentRotationSpeed);
+    }
+
+    public void TryToHypnotize()
+    {
+        // Can only be hypnotized if it's close enough to one of the saviors
+
+        List<Agent> saviors = Level.Instance.GetSaviors();
+
+        foreach (Agent savior in saviors)
+        {
+            if (Vector2.Distance(savior.Position, Position) < Level.Instance.agentHypnotizationDistance)
+            {
+                Debug.Log("Hypnotized!");
+                agentType = AgentType.ConvertedMonster;
+                gameObject.layer = 10;
+                MeshRenderer meshRenderer = GetComponentInChildren<MeshRenderer>();
+                meshRenderer.material = Level.Instance.convertedMonsterMaterial;
+                return;
+            }
+        }
+        //float distance = Level.Instance.SaviorAgentTypeTarget.GetWalkingDistanceFrom(Position);
+        //if (distance < Level.Instance.agentHypnotizationDistance)
+        //{
+        //}
     }
 
     public bool GoToTarget()

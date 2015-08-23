@@ -1,5 +1,4 @@
 ﻿TODO:
-* Agent AI
 * Passive / Fearful monsters, avoid players when firing is going on
 * Hypnotize monsters! 
   * They become our operatives.
@@ -40,4 +39,5 @@ DONE:
 * Block area around map
 * Leave blood splotches
 * Restart level
+* Agent AI
 

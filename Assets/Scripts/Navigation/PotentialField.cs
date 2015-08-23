@@ -17,10 +17,10 @@ public class PotentialField
         Flows = new Vector2Field(navigationField.fieldSize);
 
         _heap =
-             new MaxHeap<CellPotentialHeapEntry>
-             {
-                 RemoveAction = CellPotentialHeapEntry.ReturnCellCostHeapEntry
-             };
+            new MaxHeap<CellPotentialHeapEntry>
+            {
+                RemoveAction = CellPotentialHeapEntry.ReturnCellCostHeapEntry
+            };
     }
 
     public Vector2i Size { get; set; }
@@ -79,6 +79,7 @@ public class PotentialField
 
             CellPotentialHeapEntry.ReturnCellCostHeapEntry(cellPotentialHeapEntry);
         }
+        Target.Finished(this);
     }
 
     public Vector2 GetSmoothFlow(Vector2 point)
@@ -145,6 +146,20 @@ public class PotentialField
         else
         {
             return float.PositiveInfinity;
+        }
+    }
+
+    public void ReverseFlows()
+    {
+        for (int y = 0; y < Size.y; y++)
+        {
+            for (int x = 0; x < Size.x; x++)
+            {
+                if (!float.IsInfinity(Potentials[x, y]))
+                {
+                    Flows[x, y] = -Flows[x, y];
+                }
+            }
         }
     }
 
@@ -256,6 +271,7 @@ public class PotentialField
         public Vector2 normal;
         public float magnitude;
         public bool isDiagonal;
+
         public Vector2iWithNormal(Vector2i vector2i)
             : this()
         {

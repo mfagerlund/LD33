@@ -1,0 +1,7 @@
+(BehaviourTree :RunningTaskHysterisis=10 
+    (?
+        (→  :if=(And (< DistanceToEnemy 50) (< TimeSinceViolence 30) (Not Hypnotized))
+            (→ 
+                (SelectHideFromSavioursTarget) 
+                (GoToTarget)))				
+		(Wander)))

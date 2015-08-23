@@ -87,6 +87,7 @@ public class Weapon : MyMonoBehaviour
         //ShowDamage(enemyAgent);
         ShowFiring(enemyAgent);
         ShowCasing();
+        Level.Instance.RegisterViolence();
         Invoke(() => _cycling = false, _secondsBetweenBullets);
     }
 
