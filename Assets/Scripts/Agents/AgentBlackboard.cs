@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Beehive.BehaviorTrees;
+using UnityEngine;
 
 public class AgentBlackboard : BehaviourReflectionTreeBlackboard<AgentBlackboard>
 {
@@ -39,5 +40,12 @@ public class AgentBlackboard : BehaviourReflectionTreeBlackboard<AgentBlackboard
             yield return TaskState.Running;
         }
         yield return TaskState.Failure;
+    }
+
+    public IEnumerator<TaskState> Wander()
+    {
+        Agent.Target = null;
+        Agent.WantedSpeed = Vector2.zero;
+        yield return TaskState.Success;
     }
 }

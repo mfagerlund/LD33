@@ -131,7 +131,7 @@ public class Weapon : MyMonoBehaviour
             GameObject shell = (GameObject)Instantiate(shellPrefab, shellSpawnPosition.position, Quaternion.identity);
             Rigidbody2D rigidbody = shell.GetComponent<Rigidbody2D>();
             Vector2 force = shellSpawnPosition.right * Random.Range(2, 3);
-            rigidbody.AddForce(force, ForceMode2D.Impulse);
+            rigidbody.AddForce(force + _agent.Velocity, ForceMode2D.Impulse);
             rigidbody.AddTorque(Random.Range(-0.1f, 0.1f));
             shell.transform.SetParent(Level.Instance.garbageHome, true);
         }

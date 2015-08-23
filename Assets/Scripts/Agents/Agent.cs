@@ -12,6 +12,7 @@ public class Agent : MonoBehaviour
     public Target Target { get; set; }
     public LayerMask enemies;
     public Vector2 Position { get { return _rigidbody2D.position; } set { _rigidbody2D.position = value; } }
+    public Vector2 Velocity { get { return _rigidbody2D.velocity; } }
     public float Rotation { get { return _rigidbody2D.rotation; } set { _rigidbody2D.rotation = value; } }
     //public Vector2 Velocity { get; set; }
     public bool Selected { get; set; }
@@ -41,7 +42,7 @@ public class Agent : MonoBehaviour
         }
     }
 
-    private Vector2 _wantedSpeed;
+    public Vector2 WantedSpeed { get; set; }
     private static BehaviourTreeCompiler<AgentBlackboard> _compiler;
 
     public void Start()
@@ -50,6 +51,12 @@ public class Agent : MonoBehaviour
         InstantiateWeapons();
         health = maxHealth;
 
+        RebuildAi();
+    }
+
+    public void RebuildAi()
+    {
+        Ai = null;
         if (!string.IsNullOrEmpty(aiFileName))
         {
             TextAsset aiCode = Resources.Load<TextAsset>(aiFileName);
@@ -61,8 +68,6 @@ public class Agent : MonoBehaviour
             AgentBlackboard agentBlackboard = new AgentBlackboard(this);
             _compiler = _compiler ?? new BehaviourTreeCompiler<AgentBlackboard>();
             Ai = _compiler.Compile(agentBlackboard, aiCode.text);
-            Debug.Log("Done!");
-            //Debug.Log(behaviourTree);
         }
     }
 
@@ -107,10 +112,10 @@ public class Agent : MonoBehaviour
 
     public void FixedUpdate()
     {
-        _rigidbody2D.velocity = Vector2.Lerp(_wantedSpeed, _rigidbody2D.velocity, Level.Instance.agentMomentum);
-        if (currentWeapon != null && !currentWeapon.HasTarget && _wantedSpeed.sqrMagnitude > 0.01f)
+        _rigidbody2D.velocity = Vector2.Lerp(WantedSpeed, _rigidbody2D.velocity, Level.Instance.agentMomentum);
+        if (currentWeapon != null && !currentWeapon.HasTarget && WantedSpeed.sqrMagnitude > 0.01f)
         {
-            float wantedAngle = Mathf.Atan2(_wantedSpeed.y, _wantedSpeed.x) * Mathf.Rad2Deg;
+            float wantedAngle = Mathf.Atan2(WantedSpeed.y, WantedSpeed.x) * Mathf.Rad2Deg;
             _rigidbody2D.rotation = Mathf.LerpAngle(wantedAngle, _rigidbody2D.rotation, 1 - Time.deltaTime * Level.Instance.agentRotationSpeed);
         }
     }
@@ -120,7 +125,7 @@ public class Agent : MonoBehaviour
         if (Target != null)
         {
             Vector2 flow = Target.GetFlowToTarget(Position);
-            _wantedSpeed = flow * Level.Instance.agentMaxSpeed;
+            WantedSpeed = flow * Level.Instance.agentMaxSpeed;
 
             // We've arrived!
             Vector2 actualTarget;
@@ -139,7 +144,7 @@ public class Agent : MonoBehaviour
         }
         else
         {
-            _wantedSpeed = Vector2.zero;
+            WantedSpeed = Vector2.zero;
             return false;
         }
     }

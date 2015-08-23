@@ -37,4 +37,12 @@ public class Level : MonoBehaviour
     {
         Application.LoadLevel(Application.loadedLevel);
     }
+
+    public void RebuildAis()
+    {
+        foreach (Agent agent in GetAgents())
+        {
+            agent.RebuildAi();
+        }
+    }
 }

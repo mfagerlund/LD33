@@ -231,7 +231,7 @@ MonoBehaviour:
   bulletsInClip: 22
   reloadTime: 3
   roundsPerMinute: 600
-  fireDistance: 30
+  fireDistance: 40
   damageAmount: 5
   shellPrefab: {fileID: 189264, guid: acc9497d208cb2e47a5f78fdb3076c14, type: 2}
   bulletPrefab: {fileID: 0}
@@ -287,6 +287,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: priority
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: fireDistance
+      value: 40
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
