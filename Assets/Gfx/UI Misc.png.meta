@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 04abd8be2e2244f4887ab5e4d38df003
-timeCreated: 1440352878
+timeCreated: 1440368806
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -11,6 +11,9 @@ TextureImporter:
     21300008: Blood Splotches
     21300010: Pistol
     21300012: Smg
+    21300014: Goggles
+    21300016: Soldier
+    21300018: Monster
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -123,6 +126,36 @@ TextureImporter:
         y: 67
         width: 22
         height: 9
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Goggles
+      rect:
+        serializedVersion: 2
+        x: 94
+        y: 109
+        width: 31
+        height: 17
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Soldier
+      rect:
+        serializedVersion: 2
+        x: 76
+        y: 1
+        width: 51
+        height: 62
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Monster
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 0
+        width: 51
+        height: 63
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}

@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class MonsterRevealer : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
     public ParticleSystem particleSystem;
+    public Button button;
 
-    private static Color saviorBlood = new Color(255 / 255f, 6 / 255f, 6 / 255f, 180 / 255f);
+    private static Color saviorColor = new Color(255 / 255f, 6 / 255f, 6 / 255f, 180 / 255f);
+    private static Color monsterColor = new Color(6 / 255f, 255 / 255f, 6 / 255f, 180 / 255f);
 
     public void Startup()
     {
@@ -24,14 +27,29 @@ public class MonsterRevealer : MonoBehaviour
 
     private void Reveal()
     {
-        if (spriteRenderer != null && Level.Instance.monstersRevealed)
+        if (Level.Instance == null)
         {
-            spriteRenderer.color = saviorBlood;
+            return;
         }
 
-        if (particleSystem != null && Level.Instance.monstersRevealed)
+        if (spriteRenderer != null)
         {
-            particleSystem.startColor = saviorBlood;
+            spriteRenderer.color = Level.Instance.monstersRevealed ? saviorColor : monsterColor;
+        }
+
+        if (particleSystem != null)
+        {
+            particleSystem.startColor = Level.Instance.monstersRevealed ? saviorColor : monsterColor;
+        }
+
+        if (button != null)
+        {
+            ColorBlock colorBlock = button.colors;
+            colorBlock.normalColor = Level.Instance.monstersRevealed ? Color.red : Color.black;
+            colorBlock.disabledColor = colorBlock.normalColor;
+            colorBlock.highlightedColor = colorBlock.normalColor;
+            colorBlock.pressedColor = colorBlock.normalColor;
+            button.colors = colorBlock;
         }
     }
 }

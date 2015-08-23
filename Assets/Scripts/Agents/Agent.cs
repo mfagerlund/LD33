@@ -181,6 +181,7 @@ public class Agent : MonoBehaviour
         {
             currentWeapon.Drop();
         }
+        Level.Instance.RegisterDeath(this);
         Destroy(gameObject);
     }
 

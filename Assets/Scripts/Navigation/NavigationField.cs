@@ -112,11 +112,11 @@ public class NavigationField : MonoBehaviour
 
     //            if (PotentialField.DebugInstance != null)
     //            {
-    //                float potential = PotentialField.DebugInstance.Potentials[x, y];
-    //                if (potential > PotentialField.UnreachablePotential)
-    //                {
-    //                    Handles.Label(center, potential.ToString("F2"));
-    //                }
+    //                //float potential = PotentialField.DebugInstance.Potentials[x, y];
+    //                //if (potential > PotentialField.UnreachablePotential)
+    //                //{
+    //                //    Handles.Label(center, potential.ToString("F2"));
+    //                //}
 
     //                Vector2 flow = PotentialField.DebugInstance.Flows[x, y];
     //                Gizmos.color = Color.black;

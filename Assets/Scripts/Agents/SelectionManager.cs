@@ -17,7 +17,8 @@ public class SelectionManager : MonoBehaviour
     public Vector2 selectionStart = Vector2.zero;
     public Vector2 selectionEnd = Vector2.zero;
     public AudioClip selectedSound;
-
+    public AudioClip tooFar;
+    public AudioClip selectSomeone;
     public AudioClip[] hypnotics;
 
     public List<Agent> SelectedAgents { get; set; }
@@ -69,11 +70,13 @@ public class SelectionManager : MonoBehaviour
 
     public void HypnotizeSelected()
     {
+        bool potential=false;
         List<Agent> hypnotized = new List<Agent>();
         foreach (Agent agent in SelectedAgents)
         {
             if (agent.agentType == AgentType.PassiveMonster)
             {
+                potential = true;
                 if (agent.TryToHypnotize())
                 {
                     hypnotized.Add(agent);
@@ -84,6 +87,14 @@ public class SelectionManager : MonoBehaviour
         {
             AudioSource.PlayClipAtPoint(hypnotics.RandomItem(), SelectedControlledAgents.First().Position, 0.6f);
             Hypnotizer.Instance.ShowHypnotization(hypnotized);
+        }
+        else if (potential)
+        {
+            AudioSource.PlayClipAtPoint(tooFar, Vector2.zero, 0.6f);
+        }
+        else
+        {
+            AudioSource.PlayClipAtPoint(selectSomeone, Vector2.zero, 0.6f);
         }
     }
 

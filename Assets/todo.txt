@@ -1,13 +1,8 @@
 ﻿TODO:
-* Hypnos: They will pick up weapons they come across
-* Don't de-select hypnos when user clicks "hypnotize"
-* Add keyboard navigation for map
+
+* Replace cubes with savior/monster/passive monster sprites
 * More easing
 * Work in story
-* Trigger reveal
-  * Glitching
-  * Perception Filtering Device (can't be disabled)
-* Replace cubes with savior/monster/passive monster sprites
 * Select weapon
 * Show icons for selected saviors
 * acks:http://www.bfxr.net/
@@ -43,4 +38,11 @@ DONE:
   * They become our operatives.
   * They will pick up weapons they come across
   * They stay hypnotized for a limited time period
+* Hypnos: They will pick up weapons they come across
 
+* Don't de-select hypnos when user clicks "hypnotize"
+* Add keyboard navigation for map
+
+* Trigger reveal
+  * Glitching
+  * Perception Filtering Device (can't be disabled)

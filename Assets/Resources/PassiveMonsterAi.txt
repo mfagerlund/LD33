@@ -7,6 +7,5 @@
 		(→  :if=Hypnotized (GoToTarget))
         (→  :if=(And (Not Hypnotized) (< DistanceToEnemy 50) (< TimeSinceViolence 30))
 			(SelectHideFromSavioursTarget)
-			(GoToTarget))
-		
+			(GoToTarget))		
 		(Wander)))

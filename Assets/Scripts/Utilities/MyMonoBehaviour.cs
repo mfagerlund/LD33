@@ -54,16 +54,30 @@ public abstract class MyMonoBehaviour : MonoBehaviour
         return result;
     }
 
+    protected static IEnumerator TimeEase(Action<float> action, float start, float target, float duration, EaseType easeType)
+    {
+        return TimeEase(action, start, target, duration, Ease.FromType(easeType));
+    }
+
     protected static IEnumerator TimeEase(Action<float> action, float start, float target, float duration, Easer ease)
     {
-        float elapsed = 0;
-        var range = target - start;
+        //    float elapsed = 0;
+        //    var range = target - start;
 
-        float startTime = Time.realtimeSinceStartup;
+        //    float startTime = Time.realtimeSinceStartup;
+        //    while (elapsed < duration)
+        //    {
+        //        float deltaTime = Time.realtimeSinceStartup - startTime;
+        //        elapsed = Mathf.MoveTowards(elapsed, duration, deltaTime);
+        //        action(start + range * ease(elapsed / duration));
+        //        yield return 0;
+        //    }
+        //    action(target);
+        var range = target - start;
+        float elapsed = 0;
         while (elapsed < duration)
         {
-            float deltaTime = Time.realtimeSinceStartup - startTime;
-            elapsed = Mathf.MoveTowards(elapsed, duration, deltaTime);
+            elapsed = Mathf.MoveTowards(elapsed, duration, Time.deltaTime);
             action(start + range * ease(elapsed / duration));
             yield return 0;
         }

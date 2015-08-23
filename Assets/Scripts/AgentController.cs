@@ -12,7 +12,6 @@ public class AgentController : MonoBehaviour
 
     public float clickDistance = 10;
 
-
     public Tool currentTool;
     public static AgentController Instance { get; set; }
 
