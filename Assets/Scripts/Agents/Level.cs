@@ -30,4 +30,9 @@ public class Level : MonoBehaviour
     {
         return agentHome.GetComponentsInChildren<Agent>().ToList();
     }
+
+    public void RestartCurrentLevel()
+    {
+        Application.LoadLevel(Application.loadedLevel);
+    }
 }

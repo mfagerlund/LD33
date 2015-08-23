@@ -7,6 +7,9 @@ public class NavigationField : MonoBehaviour
     public Vector2i fieldSize = new Vector2i(50, 50);
     public float gridSize = 1.0f;
     public LayerMask inpassable;
+    public Road road;
+    public float roadCost = 1;
+    public float offRoadCost = 2;
 
     private float _sqrt2 = Mathf.Sqrt(2);
     private Vector2 _halfGrid;
@@ -46,7 +49,7 @@ public class NavigationField : MonoBehaviour
 
     public void Populate()
     {
-        Costs.Clear();
+        //Costs.Clear();
         for (int y = 0; y < fieldSize.y; y++)
         {
             for (int x = 0; x < fieldSize.x; x++)
@@ -66,53 +69,63 @@ public class NavigationField : MonoBehaviour
                 if (collider != null)
                 {
                     Costs[x, y] = float.PositiveInfinity;
+                    continue;
+                }
+
+                if (road.IsPointOnRoad(rect.center))
+                {
+                    Costs[x, y] = roadCost;
+                }
+                else
+                {
+                    Costs[x, y] = offRoadCost;
                 }
             }
         }
     }
 
-    public void OnDrawGizmos()
-    {
-        //if (Costs == null)
-        //{
-        //    Start();
-        //}
+    //public void OnDrawGizmos()
+    //{
+    //    if (Costs == null)
+    //    {
+    //        Start();
+    //    }
 
-        //for (int y = 0; y < fieldSize.y; y++)
-        //{
-        //    for (int x = 0; x < fieldSize.x; x++)
-        //    {
-        //        Gizmos.color = new Color(1, 0.5f, 0.5f, 0.7f);
+    //    for (int y = 0; y < fieldSize.y; y++)
+    //    {
+    //        for (int x = 0; x < fieldSize.x; x++)
+    //        {
+    //            Gizmos.color = new Color(1, 0.5f, 0.5f, 0.7f);
 
-        //        Vector2i p = new Vector2i(x, y);
-        //        Vector2 center = GetCellCenter(p);
-        //        if (float.IsPositiveInfinity(Costs[x, y]))
-        //        {
-        //            Rect rect = GetCellRect(p);
-        //            Gizmos.DrawCube(rect.center, rect.size * 0.95f);
-        //        }
-        //        else
-        //        {
-        //            Rect rect = GetCellRect(p);
-        //            Gizmos.color = new Color(1, 1, 1, 0.3f);
-        //            Gizmos.DrawCube(rect.center, rect.size * 0.95f);
-        //        }
+    //            Vector2i p = new Vector2i(x, y);
+    //            Vector2 center = GetCellCenter(p);
+    //            if (float.IsPositiveInfinity(Costs[x, y]))
+    //            {
+    //                Rect rect = GetCellRect(p);
+    //                Gizmos.DrawCube(rect.center, rect.size * 0.95f);
+    //            }
+    //            else
+    //            {
+    //                Rect rect = GetCellRect(p);
+    //                Gizmos.color = new Color(1, 1, 1, 0.3f);
+    //                Gizmos.DrawCube(rect.center, rect.size * 0.95f);
+    //            }
 
-        //        if (PotentialField.DebugInstance != null)
-        //        {
-        //            float potential = PotentialField.DebugInstance.Potentials[x, y];
-        //            if (potential > PotentialField.UnreachablePotential)
-        //            {
-        //                Handles.Label(center, potential.ToString("F2"));
-        //            }
+    //            if (PotentialField.DebugInstance != null)
+    //            {
+    //                float potential = PotentialField.DebugInstance.Potentials[x, y];
+    //                if (potential > PotentialField.UnreachablePotential)
+    //                {
+    //                    Handles.Label(center, potential.ToString("F2"));
+    //                }
 
-        //            Vector2 flow = PotentialField.DebugInstance.Flows[x, y];
-        //            Gizmos.color = Color.black;
-        //            Gizmos.DrawRay(center, flow * 0.5f);
-        //        }
-        //    }
-        //}
-    }
+    //                Vector2 flow = PotentialField.DebugInstance.Flows[x, y];
+    //                Gizmos.color = Color.black;
+    //                Gizmos.DrawRay(center, flow * 0.5f);
+    //            }
+    //        }
+    //    }
+    //}
 
     private Vector2 GetCellCenter(Vector2i p)
     {

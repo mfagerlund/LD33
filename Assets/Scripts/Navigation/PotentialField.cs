@@ -142,7 +142,9 @@ public class PotentialField
             return;
         }
 
-        float newPotential = incomingPotential - delta.magnitude;
+
+        float cost = NavigationField.GetCost(destination);
+        float newPotential = incomingPotential - delta.magnitude * cost;
 
         if (newPotential <= currentPotential)
         {
