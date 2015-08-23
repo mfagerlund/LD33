@@ -1,5 +1,9 @@
 (BehaviourTree :RunningTaskHysterisis=10 
     (?
+		(→  :if=(And Hypnotized (Not HasWeapon) (< DistanceToWeapon 25))
+			(SelectWeaponTarget)
+			(GoToTarget)
+			(PickUpWeapon))
 		(→  :if=Hypnotized (GoToTarget))
         (→  :if=(And (Not Hypnotized) (< DistanceToEnemy 50) (< TimeSinceViolence 30))
 			(SelectHideFromSavioursTarget)

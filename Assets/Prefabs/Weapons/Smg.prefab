@@ -239,6 +239,7 @@ MonoBehaviour:
   bulletSpawnPosition: {fileID: 431172}
   shellSpawnPosition: {fileID: 478050}
   priority: 10
+  weaponDrop: {fileID: 11499086, guid: 3e4b7467236184e4d88959394f548f5e, type: 2}
   selectedTarget: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
@@ -292,6 +293,11 @@ Prefab:
       propertyPath: fireDistance
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: weaponDrop
+      value: 
+      objectReference: {fileID: 11499086, guid: 3e4b7467236184e4d88959394f548f5e,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 191412}

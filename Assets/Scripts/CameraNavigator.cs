@@ -23,10 +23,12 @@ public class CameraNavigator : MonoBehaviour
         if (Input.GetMouseButton(1))
         {
             Vector3 delta = Input.mousePosition - _lastPosition;
-            delta = Camera.main.ScreenToWorldPoint(delta)-Camera.main.ScreenToWorldPoint(Vector3.zero);
+            delta = Camera.main.ScreenToWorldPoint(delta) - Camera.main.ScreenToWorldPoint(Vector3.zero);
             Camera.main.transform.Translate(-delta.x * mouseSensitivity, -delta.y * mouseSensitivity, 0);
             _lastPosition = Input.mousePosition;
         }
+
+        Camera.main.transform.Translate(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
     }
 
     private void HandleScrollWheel()

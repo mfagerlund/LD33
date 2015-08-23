@@ -134,8 +134,8 @@ MonoBehaviour:
   enemies:
     serializedVersion: 2
     m_Bits: 1024
-  health: 20
-  maxHealth: 20
+  health: 22
+  maxHealth: 22
   weaponPrefabs:
   - {fileID: 11465538, guid: fe2c482330a74b440b25334ae4b3f9b6, type: 2}
   currentWeapon: {fileID: 0}
@@ -176,7 +176,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: health
-      value: 20
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: agentType
@@ -218,6 +218,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: aiFileName
       value: MonsterAi
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: maxHealth
+      value: 22
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

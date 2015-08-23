@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Utilities;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class SelectionManager : MonoBehaviour
 {
@@ -16,6 +18,8 @@ public class SelectionManager : MonoBehaviour
     public Vector2 selectionEnd = Vector2.zero;
     public AudioClip selectedSound;
 
+    public AudioClip[] hypnotics;
+
     public List<Agent> SelectedAgents { get; set; }
     public static SelectionManager Instance { get; set; }
 
@@ -29,7 +33,19 @@ public class SelectionManager : MonoBehaviour
 
     public void Update()
     {
+        // Some will have been removed
+        SelectedAgents.RemoveAll(s => s == null);
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            HypnotizeSelected();
+        }
+
         Instance = this;
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -53,12 +69,21 @@ public class SelectionManager : MonoBehaviour
 
     public void HypnotizeSelected()
     {
+        List<Agent> hypnotized = new List<Agent>();
         foreach (Agent agent in SelectedAgents)
         {
             if (agent.agentType == AgentType.PassiveMonster)
             {
-                agent.TryToHypnotize();
+                if (agent.TryToHypnotize())
+                {
+                    hypnotized.Add(agent);
+                }
             }
+        }
+        if (hypnotized.Any())
+        {
+            AudioSource.PlayClipAtPoint(hypnotics.RandomItem(), SelectedControlledAgents.First().Position, 0.6f);
+            Hypnotizer.Instance.ShowHypnotization(hypnotized);
         }
     }
 
@@ -97,7 +122,7 @@ public class SelectionManager : MonoBehaviour
         }
         if (SelectedControlledAgents.Any())
         {
-            AudioSource.PlayClipAtPoint(selectedSound, SelectedControlledAgents.First().Position, 0.6f);
+            AudioSource.PlayClipAtPoint(selectedSound, SelectedControlledAgents.First().Position, 1.5f);
         }
     }
 

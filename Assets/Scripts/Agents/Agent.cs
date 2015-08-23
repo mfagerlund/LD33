@@ -32,7 +32,8 @@ public class Agent : MonoBehaviour
 
     public bool Hypnotized { get { return agentType == AgentType.ConvertedMonster; } }
 
-    private List<Weapon> WeaponInstances { get; set; }
+    public List<Weapon> WeaponInstances { get; set; }
+    public Agent HypnotizedBy { get; set; }
 
     public bool IsPlayerControlled
     {
@@ -75,19 +76,6 @@ public class Agent : MonoBehaviour
 
     public void Update()
     {
-        //if (agentType == AgentType.ViolentMonster)
-        //{
-        //    Target = Level.Instance.SaviorAgentTypeTarget;
-        //}
-
-        //if (Ai == null)
-        //{
-        //    GoToTarget();
-        //}
-        //else
-        //{
-        //    Ai.Tick();
-        //}
         if (Ai != null)
         {
             Ai.Tick();
@@ -132,31 +120,33 @@ public class Agent : MonoBehaviour
         _rigidbody2D.rotation = Mathf.LerpAngle(wantedAngle, _rigidbody2D.rotation, 1 - Time.deltaTime * Level.Instance.agentRotationSpeed);
     }
 
-    public void TryToHypnotize()
+    public bool TryToHypnotize()
     {
         List<Agent> saviors = Level.Instance.GetSaviors();
         foreach (Agent savior in saviors)
         {
             if (Vector2.Distance(savior.Position, Position) < Level.Instance.agentHypnotizationDistance)
             {
+                HypnotizedBy = savior;
                 agentType = AgentType.ConvertedMonster;
                 gameObject.layer = 10;
                 MeshRenderer meshRenderer = GetComponentInChildren<MeshRenderer>();
                 meshRenderer.material = Level.Instance.convertedMonsterMaterial;
                 Target = null;
-                return;
+                return true;
             }
         }
+        return false;
     }
 
-    public bool GoToTarget()
+    public TaskState GoToTarget()
     {
         if (Target != null)
         {
             if (!Target.IsValid)
             {
                 Target = null;
-                return false;
+                return TaskState.Failure;
             }
 
             Vector2 flow = Target.GetFlowToTarget(Position);
@@ -173,20 +163,24 @@ public class Agent : MonoBehaviour
                 }
 
                 Target = null;
-                return false;
+                return TaskState.Success;
             }
-            return true;
+            return TaskState.Running;
         }
         else
         {
             WantedSpeed = Vector2.zero;
-            return false;
+            return TaskState.Failure;
         }
     }
 
     private void Die()
     {
         PlaySound(deathSound);
+        if (currentWeapon != null)
+        {
+            currentWeapon.Drop();
+        }
         Destroy(gameObject);
     }
 

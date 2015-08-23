@@ -156,7 +156,10 @@ namespace Shadow2D
             CreateShadowPolygonPoints();
 
             Mesh mesh = _visiblitySet.CreateOrUpdateMesh();
-            _meshFilter.sharedMesh = mesh;
+            if (_meshFilter != null)
+            {
+                _meshFilter.sharedMesh = mesh;
+            }
 
             if (_drawGizmos)
             {

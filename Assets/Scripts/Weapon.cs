@@ -23,7 +23,9 @@ public class Weapon : MyMonoBehaviour
     public Transform bulletSpawnPosition;
     public Transform shellSpawnPosition;
 
+    private Agent _previosTarget;
     public int priority = 0;
+    public WeaponDrop weaponDrop;
 
     public Agent selectedTarget;
 
@@ -75,10 +77,11 @@ public class Weapon : MyMonoBehaviour
             return;
         }
 
-        //if (Random.Range(0, 1f) < 0.95f)
-        //{
-        //    return;
-        //}
+        if (_previosTarget != enemyAgent && Random.Range(0, 1f) < 0.95f)
+        {
+            return;
+        }
+        _previosTarget = enemyAgent;
 
         _cycling = true;
         float damage = (Random.Range(0, damageAmount) + Random.Range(0, damageAmount)) * 0.5f;
@@ -117,7 +120,7 @@ public class Weapon : MyMonoBehaviour
     {
         if (lineRendererPrefab != null)
         {
-            LineRenderer lineRenderer = InstantiateAtMe<LineRenderer>(lineRendererPrefab);
+            LineRenderer lineRenderer = InstantiateAtMe(lineRendererPrefab);
             lineRenderer.SetPosition(0, _agent.Position);
             lineRenderer.SetPosition(1, enemyAgent.Position);
             lineRenderer.transform.SetParent(Level.Instance.garbageHome, true);
@@ -184,5 +187,12 @@ public class Weapon : MyMonoBehaviour
                 return;
             }
         }
+    }
+
+    public void Drop()
+    {
+        WeaponDrop drop = (WeaponDrop)Instantiate(weaponDrop, transform.position, Quaternion.identity);
+        drop.transform.Rotate(0, 0, Random.Range(0, 360));
+        drop.transform.SetParent(Level.Instance.garbageHome);        
     }
 }

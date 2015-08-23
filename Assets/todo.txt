@@ -1,5 +1,7 @@
 ﻿TODO:
 * Hypnos: They will pick up weapons they come across
+* Don't de-select hypnos when user clicks "hypnotize"
+* Add keyboard navigation for map
 * More easing
 * Work in story
 * Trigger reveal

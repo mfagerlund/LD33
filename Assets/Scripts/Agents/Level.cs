@@ -13,6 +13,7 @@ public class Level : MonoBehaviour
     public RectTransform gameOverMessage;
     public Target SaviorAgentTypeTarget { get; set; }
     public Target HideFromSaviorsTarget { get; set; }
+    public Target WeaponDropTarget { get; set; }
     public float LastViolence { get; private set; }
 
     [Header("Agent settings")]
@@ -28,6 +29,7 @@ public class Level : MonoBehaviour
         Instance = this;
         SaviorAgentTypeTarget = GetComponent<AgentTypeTarget>();
         HideFromSaviorsTarget = GetComponent<HideFromAgentTypeTarget>();
+        WeaponDropTarget = GetComponent<WeaponDropTarget>();
         LastViolence = -1000;
     }
 

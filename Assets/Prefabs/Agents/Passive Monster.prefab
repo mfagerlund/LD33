@@ -59,7 +59,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 123976}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -25.4300022, y: -27.0083351, z: -1.10000002}
+  m_LocalPosition: {x: 0, y: 0, z: -1.10000002}
   m_LocalScale: {x: .900000036, y: .900000036, z: .587108076}
   m_Children: []
   m_Father: {fileID: 456350}
@@ -217,9 +217,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemies:
     serializedVersion: 2
-    m_Bits: 1024
-  health: 12
-  maxHealth: 12
+    m_Bits: 2048
+  health: 10
+  maxHealth: 10
   weaponPrefabs: []
   currentWeapon: {fileID: 0}
   agentType: 2
@@ -285,7 +285,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: health
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: agentType
@@ -330,7 +330,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: maxHealth
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_LocalScale.x
@@ -339,6 +339,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_LocalScale.y
       value: .5
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: enemies.m_Bits
+      value: 2048
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
