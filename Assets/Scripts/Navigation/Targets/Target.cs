@@ -12,6 +12,8 @@ public abstract class Target : MonoBehaviour
         SeedPotentials();
     }
 
+    public bool HasArrived { get; set; }
+
     public void SetPotential(Vector2i position, float potential = DefaultPotential)
     {
         _setPotential(position, potential);
@@ -32,7 +34,7 @@ public abstract class Target : MonoBehaviour
         Vector2 actualTarget;
         if (IsAtTarget(position, out actualTarget))
         {
-            Vector2 delta = actualTarget - position;            
+            Vector2 delta = actualTarget - position;
             return delta * 0.1f;
         }
         PotentialField potentialField = NavigationHandler.Instance.GetPotentialField(this);

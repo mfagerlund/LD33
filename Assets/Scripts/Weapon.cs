@@ -119,6 +119,7 @@ public class Weapon : MyMonoBehaviour
             LineRenderer lineRenderer = InstantiateAtMe<LineRenderer>(lineRendererPrefab);
             lineRenderer.SetPosition(0, _agent.Position);
             lineRenderer.SetPosition(1, enemyAgent.Position);
+            lineRenderer.transform.SetParent(Level.Instance.garbageHome, true);
             Destroy(lineRenderer.gameObject, 0.2f);
         }
     }
@@ -132,7 +133,7 @@ public class Weapon : MyMonoBehaviour
             Vector2 force = shellSpawnPosition.right * Random.Range(2, 3);
             rigidbody.AddForce(force, ForceMode2D.Impulse);
             rigidbody.AddTorque(Random.Range(-0.1f, 0.1f));
-            //Destroy(shell.gameObject, 10f);
+            shell.transform.SetParent(Level.Instance.garbageHome, true);
         }
     }
 

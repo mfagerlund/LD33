@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 
 public class MonsterRevealer : MonoBehaviour
 {
@@ -8,7 +7,22 @@ public class MonsterRevealer : MonoBehaviour
 
     private static Color saviorBlood = new Color(255 / 255f, 6 / 255f, 6 / 255f, 180 / 255f);
 
+    public void Startup()
+    {
+        Reveal();
+    }
+
+    public void Awake()
+    {
+        Reveal();
+    }
+
     public void Update()
+    {
+        Reveal();
+    }
+
+    private void Reveal()
     {
         if (spriteRenderer != null && Level.Instance.monstersRevealed)
         {

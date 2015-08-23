@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts.Utilities;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class Agent : MonoBehaviour
@@ -21,6 +21,8 @@ public class Agent : MonoBehaviour
     public AgentType agentType;
     public GameObject[] bloodSpillPrefabs;
     public AudioClip deathSound;
+    public AudioClip walkingSound;
+    public AudioClip arrivedSound;
     public const float AgentRadius = 0.3f;
 
     private List<Weapon> WeaponInstances { get; set; }
@@ -71,12 +73,6 @@ public class Agent : MonoBehaviour
         }
     }
 
-    private void Die()
-    {
-        AudioSource.PlayClipAtPoint(deathSound, Position);
-        Destroy(gameObject);
-    }
-
     public void FixedUpdate()
     {
         _rigidbody2D.velocity = Vector2.Lerp(_wantedSpeed, _rigidbody2D.velocity, Level.Instance.agentMomentum);
@@ -87,16 +83,35 @@ public class Agent : MonoBehaviour
         }
     }
 
+    private void Die()
+    {
+        PlaySound(deathSound);
+        Destroy(gameObject);
+    }
+
+    private void PlaySound(AudioClip clip)
+    {
+        if (clip)
+        {
+            AudioSource.PlayClipAtPoint(clip, Position);
+        }
+    }
+
     private void AddBloodSpill()
     {
-        if (!bloodSpillPrefabs.Any())
-        {
-            return;
-        }
+        //if (!bloodSpillPrefabs.Any())
+        //{
+        //    return;
+        //}
 
-        GameObject prefab = bloodSpillPrefabs[Random.Range(0, bloodSpillPrefabs.Length)];
-        GameObject blood = (GameObject)Instantiate(prefab, Position + Random.insideUnitCircle * 0.5f, Quaternion.identity);
-        blood.transform.Rotate(0, 0, Random.Range(0, 360));
+        //GameObject prefab = bloodSpillPrefabs[Random.Range(0, bloodSpillPrefabs.Length)];
+        GameObject prefab = bloodSpillPrefabs.RandomItem();
+        if (prefab != null)
+        {
+            GameObject blood = (GameObject)Instantiate(prefab, Position + Random.insideUnitCircle * 0.5f, Quaternion.identity);
+            blood.transform.Rotate(0, 0, Random.Range(0, 360));
+            blood.transform.SetParent(Level.Instance.garbageHome, true);
+        }
     }
 
     private void InstantiateWeapons()
@@ -150,6 +165,12 @@ public class Agent : MonoBehaviour
             Vector2 actualTarget;
             if (Target.IsAtTarget(Position, out actualTarget))
             {
+                if (!Target.HasArrived)
+                {
+                    PlaySound(arrivedSound);
+                    Target.HasArrived = true;
+                }
+
                 Target = null;
             }
         }

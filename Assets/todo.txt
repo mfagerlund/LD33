@@ -1,13 +1,22 @@
 ﻿TODO:
-* Leave blood splotches
-* Leave corpses
 * Agent AI
-* Passive / Fearful agents, avoid players when firing is going on
+* Passive / Fearful monsters, avoid players when firing is going on
 * Hypnotize monsters! 
   They become our operatives.
   They will pick up weapons they come across
   They stay hypnotized for a limited time period
 * More easing
+* Work in story
+* Trigger reveal
+* Replace cubes with savior/monster/passive monster sprites
+* Select weapon
+* Show icons for selected saviors
+* acks:http://www.bfxr.net/
+* Restart level
+
+MAYBE:
+* Leave corpses
+
 
 DONE:
 * Shadows
@@ -27,29 +36,5 @@ DONE:
 * Agents fire through buildings
 * Fade out shells
 * Block area around map
+* Leave blood splotches
 
-
-Story:
-The Greenies have no sense of empathy. 
-The Greenies have no sense of honor. 
-They will kill you as soon as look at you.
-You may feel empathy towards them,
-as they are living beings. 
-
-This is a feeling you must root out of your mind. 
-Empathy is a weekness.
-Killing Greenies is more like taking out the trash.
-They are filth.
-
-Remember what they did on Terminus Est.
-Remember Alpha Prime.
-Remember the Severian systems.
-
-Remember the colonsists.
-They are no longer here to remember for themselves.
-
-Your duty is to exterminate every last one of them.
-Your duty is to distance yourself from feelings.
-
-We are the Guardians. We are the few. 
-We are what stands between mankind and oblivion.

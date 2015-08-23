@@ -8,6 +8,7 @@ public class Level : MonoBehaviour
     public GameObject agentHome;
     public LayerMask buildings;
     public bool monstersRevealed;
+    public Transform garbageHome;
 
     [Header("Agent settings")]
     public float agentMaxSpeed = 1;

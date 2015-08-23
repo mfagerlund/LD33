@@ -14,11 +14,13 @@ public class SelectionManager : MonoBehaviour
     public bool isSelecting = false;
     public Vector2 selectionStart = Vector2.zero;
     public Vector2 selectionEnd = Vector2.zero;
+    public AudioClip selectedSound;
 
     public List<Agent> SelectedAgents { get; set; }
     public static SelectionManager Instance { get; set; }
 
     public List<Agent> SelectedControlledAgents { get { return SelectedAgents.Where(a => a.IsPlayerControlled).ToList(); } }
+
 
     public void Start()
     {
@@ -82,6 +84,10 @@ public class SelectionManager : MonoBehaviour
             {
                 SelectAgent(agent);
             }
+        }
+        if (SelectedControlledAgents.Any())
+        {
+            AudioSource.PlayClipAtPoint(selectedSound, SelectedControlledAgents.First().Position, 0.6f);
         }
     }
 
