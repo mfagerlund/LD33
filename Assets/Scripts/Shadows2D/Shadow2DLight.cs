@@ -18,6 +18,7 @@ namespace Shadow2D
         private Collider2DTracker _collider2DTracker = new Collider2DTracker();
         private VisiblitySet _visiblitySet;
         private MeshFilter _meshFilter;
+        private MeshRenderer _meshRenderer;
         internal bool _drawGizmos;
         private Vector2 _oldPosition = new Vector2(float.NegativeInfinity, float.NegativeInfinity);
         private Vector2 _oldCameraPosition = new Vector2(float.NegativeInfinity, float.NegativeInfinity);
@@ -34,6 +35,8 @@ namespace Shadow2D
         public bool mergeCollinearShadowSegments = true;
 
         [Header("Update Settings")]
+        public bool onlyUpdateWhenVisible = false;
+
         // Updates no matter what
         public bool updateOnEachUpdate = false;
 
@@ -76,6 +79,14 @@ namespace Shadow2D
 
         public void LateUpdate()
         {
+            _meshRenderer = _meshRenderer ?? GetComponent<MeshRenderer>();
+
+
+            if (_meshRenderer != null && onlyUpdateWhenVisible && !_meshRenderer.isVisible)
+            {
+                return;
+            }
+
             _visiblitySet = _visiblitySet ?? new VisiblitySet();
 
             // Can't rotate the lights at the moment

@@ -1,0 +1,4 @@
+(BehaviourTree :RunningTaskHysterisis=10 
+	(→                  
+		(GoToTarget)
+		(Wander)))

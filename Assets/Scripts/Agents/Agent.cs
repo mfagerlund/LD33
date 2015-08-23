@@ -30,7 +30,7 @@ public class Agent : MonoBehaviour
     public string aiFileName;
     public const float AgentRadius = 0.3f;
 
-    public bool Hypnotized { get; set; }
+    public bool Hypnotized { get { return agentType == AgentType.ConvertedMonster; } }
 
     private List<Weapon> WeaponInstances { get; set; }
 
@@ -75,20 +75,25 @@ public class Agent : MonoBehaviour
 
     public void Update()
     {
-        if (agentType == AgentType.ViolentMonster)
-        {
-            Target = Level.Instance.SaviorAgentTypeTarget;
-        }
+        //if (agentType == AgentType.ViolentMonster)
+        //{
+        //    Target = Level.Instance.SaviorAgentTypeTarget;
+        //}
 
-        if (Ai == null)
-        {
-            GoToTarget();
-        }
-        else
+        //if (Ai == null)
+        //{
+        //    GoToTarget();
+        //}
+        //else
+        //{
+        //    Ai.Tick();
+        //}
+        if (Ai != null)
         {
             Ai.Tick();
+            FireAtEnemies();
         }
-        FireAtEnemies();
+
         health = Mathf.Min(health + Level.Instance.agentHealthRegeneration * Time.deltaTime, maxHealth);
 
         if (currentWeapon == null || currentWeapon.IsOutOfAmmo)
@@ -129,32 +134,31 @@ public class Agent : MonoBehaviour
 
     public void TryToHypnotize()
     {
-        // Can only be hypnotized if it's close enough to one of the saviors
-
         List<Agent> saviors = Level.Instance.GetSaviors();
-
         foreach (Agent savior in saviors)
         {
             if (Vector2.Distance(savior.Position, Position) < Level.Instance.agentHypnotizationDistance)
             {
-                Debug.Log("Hypnotized!");
                 agentType = AgentType.ConvertedMonster;
                 gameObject.layer = 10;
                 MeshRenderer meshRenderer = GetComponentInChildren<MeshRenderer>();
                 meshRenderer.material = Level.Instance.convertedMonsterMaterial;
+                Target = null;
                 return;
             }
         }
-        //float distance = Level.Instance.SaviorAgentTypeTarget.GetWalkingDistanceFrom(Position);
-        //if (distance < Level.Instance.agentHypnotizationDistance)
-        //{
-        //}
     }
 
     public bool GoToTarget()
     {
         if (Target != null)
         {
+            if (!Target.IsValid)
+            {
+                Target = null;
+                return false;
+            }
+
             Vector2 flow = Target.GetFlowToTarget(Position);
             WantedSpeed = flow * Level.Instance.agentMaxSpeed;
 

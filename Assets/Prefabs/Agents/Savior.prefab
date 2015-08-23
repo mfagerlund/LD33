@@ -177,6 +177,7 @@ MonoBehaviour:
   deathSound: {fileID: 8300000, guid: 7e67bfbed41e30547a09f660ef1ad842, type: 3}
   walkingSound: {fileID: 8300000, guid: 86ca4c5899385ff489390634a45d9002, type: 3}
   arrivedSound: {fileID: 8300000, guid: 2bf4f0c53d64a2a48b867837b0970459, type: 3}
+  aiFileName: SaviorAi
 --- !u!114 &11484572
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -325,6 +326,10 @@ Prefab:
       propertyPath: arrivedSound
       value: 
       objectReference: {fileID: 8300000, guid: 2bf4f0c53d64a2a48b867837b0970459, type: 3}
+    - target: {fileID: 0}
+      propertyPath: aiFileName
+      value: SaviorAi
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 127314}

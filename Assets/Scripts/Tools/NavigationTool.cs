@@ -20,7 +20,7 @@ public class NavigationTool : Tool
             LocationTarget locationTarget = (LocationTarget)Object.Instantiate(AgentController.Instance.locationTargetPrefab, Vector2.one * -100, Quaternion.identity);
             locationTarget.transform.SetParent(SelectionManager.Instance.targetsParent);
             locationTarget.SetLocations(new[] { pos.Value });
-            SelectionManager.Instance.SelectedAgents.ForEach(a => a.Target = locationTarget);
+            SelectionManager.Instance.SelectedControlledAgents.ForEach(a => a.Target = locationTarget);
         }
     }
 

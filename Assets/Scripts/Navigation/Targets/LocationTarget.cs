@@ -7,6 +7,8 @@ public class LocationTarget : Target
     private RectTransform _rectTransform;
     public HashSet<Vector2i> Locations { get; set; }
 
+    public override bool IsValid { get { return Locations.Count > 0; } }
+
     public void SetLocations(IEnumerable<Vector2i> locations)
     {
         Locations = new HashSet<Vector2i>(locations);
@@ -46,7 +48,7 @@ public class LocationTarget : Target
         }
         else
         {
-            actualTarget = Vector2.zero; 
+            actualTarget = Vector2.zero;
             return false;
         }
     }

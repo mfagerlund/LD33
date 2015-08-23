@@ -28,6 +28,7 @@ public class Level : MonoBehaviour
         Instance = this;
         SaviorAgentTypeTarget = GetComponent<AgentTypeTarget>();
         HideFromSaviorsTarget = GetComponent<HideFromAgentTypeTarget>();
+        LastViolence = -1000;
     }
 
     public void Awake()

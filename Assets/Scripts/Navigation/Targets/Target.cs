@@ -15,6 +15,7 @@ public abstract class Target : MonoBehaviour
     }
 
     public bool HasArrived { get; set; }
+    public virtual bool IsValid { get { return true; } }
 
     public void SetPotential(Vector2i position, float potential = DefaultPotential)
     {

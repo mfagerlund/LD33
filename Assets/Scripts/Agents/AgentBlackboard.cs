@@ -49,13 +49,22 @@ public class AgentBlackboard : BehaviourReflectionTreeBlackboard<AgentBlackboard
 
     public IEnumerator<TaskState> GoToTarget()
     {
-        Agent.Target = Level.Instance.SaviorAgentTypeTarget;
-
+        //Agent.Target = Level.Instance.SaviorAgentTypeTarget;
+        if (Agent.Target == null)
+        {
+            yield return TaskState.Failure;
+        }
         while (Agent.GoToTarget())
         {
             yield return TaskState.Running;
         }
         yield return TaskState.Failure;
+    }
+
+    public IEnumerator<TaskState> ClearTarget()
+    {
+        Agent.Target = null;
+        yield return TaskState.Success;
     }
 
     public IEnumerator<TaskState> Wander()
