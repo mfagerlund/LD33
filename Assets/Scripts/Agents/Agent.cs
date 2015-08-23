@@ -25,6 +25,7 @@ public class Agent : MonoBehaviour
     public AudioClip deathSound;
     public AudioClip walkingSound;
     public AudioClip arrivedSound;
+    public GameObject hynotizedIndicator;
 
     public BehaviourTree<AgentBlackboard> Ai { get; set; }
     public string aiFileName;
@@ -130,9 +131,11 @@ public class Agent : MonoBehaviour
                 HypnotizedBy = savior;
                 agentType = AgentType.ConvertedMonster;
                 gameObject.layer = 10;
-                MeshRenderer meshRenderer = GetComponentInChildren<MeshRenderer>();
-                meshRenderer.material = Level.Instance.convertedMonsterMaterial;
                 Target = null;
+                if (hynotizedIndicator != null)
+                {
+                    hynotizedIndicator.SetActive(true);
+                }
                 return true;
             }
         }
