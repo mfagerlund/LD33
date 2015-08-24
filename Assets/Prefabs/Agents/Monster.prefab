@@ -175,6 +175,11 @@ MonoBehaviour:
   deathSound: {fileID: 8300000, guid: 89925436e558bef4abee15956903e58e, type: 3}
   walkingSound: {fileID: 8300000, guid: 86ca4c5899385ff489390634a45d9002, type: 3}
   arrivedSound: {fileID: 8300000, guid: 2bf4f0c53d64a2a48b867837b0970459, type: 3}
+  hynotizedIndicator: {fileID: 0}
+  hiddenArmed: {fileID: 21300006, guid: 36c6bc9c9e7d2154a9a631d682e31a74, type: 3}
+  hiddenUnarmed: {fileID: 0}
+  revealadArmed: {fileID: 21300014, guid: 36c6bc9c9e7d2154a9a631d682e31a74, type: 3}
+  revealedUnarmed: {fileID: 0}
   aiFileName: MonsterAi
 --- !u!212 &21235420
 SpriteRenderer:

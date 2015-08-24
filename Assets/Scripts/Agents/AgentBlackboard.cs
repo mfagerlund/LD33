@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Beehive.BehaviorTrees;
-using UnityEditor.VersionControl;
 using UnityEngine;
 
 public class AgentBlackboard : BehaviourReflectionTreeBlackboard<AgentBlackboard>

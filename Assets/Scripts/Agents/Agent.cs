@@ -26,6 +26,10 @@ public class Agent : MonoBehaviour
     public AudioClip walkingSound;
     public AudioClip arrivedSound;
     public GameObject hynotizedIndicator;
+    public Sprite hiddenArmed;
+    public Sprite hiddenUnarmed;
+    public Sprite revealadArmed;
+    public Sprite revealedUnarmed;
 
     public BehaviourTree<AgentBlackboard> Ai { get; set; }
     public string aiFileName;
@@ -48,6 +52,7 @@ public class Agent : MonoBehaviour
 
     public Vector2 WantedSpeed { get; set; }
     private static BehaviourTreeCompiler<AgentBlackboard> _compiler;
+    private SpriteRenderer _spriteRenderer;
 
     public void Start()
     {
@@ -77,6 +82,8 @@ public class Agent : MonoBehaviour
 
     public void Update()
     {
+        UpdateSprite();
+
         if (Ai != null)
         {
             Ai.Tick();
@@ -88,6 +95,25 @@ public class Agent : MonoBehaviour
         if (currentWeapon == null || currentWeapon.IsOutOfAmmo)
         {
             EquipWeaponWithLowestPriority();
+        }
+    }
+
+    private void UpdateSprite()
+    {
+        _spriteRenderer = _spriteRenderer ?? GetComponentInChildren<SpriteRenderer>();
+        Sprite sprite = null;
+        if (currentWeapon != null)
+        {
+            sprite = Level.Instance.monstersRevealed ? revealadArmed : hiddenArmed;
+        }
+        else
+        {
+            sprite = Level.Instance.monstersRevealed ? revealedUnarmed : hiddenUnarmed;
+        }
+
+        if (sprite != null)
+        {
+            _spriteRenderer.sprite = sprite;
         }
     }
 

@@ -289,6 +289,10 @@ MonoBehaviour:
   walkingSound: {fileID: 8300000, guid: 86ca4c5899385ff489390634a45d9002, type: 3}
   arrivedSound: {fileID: 8300000, guid: 2bf4f0c53d64a2a48b867837b0970459, type: 3}
   hynotizedIndicator: {fileID: 108784}
+  hiddenArmed: {fileID: 21300002, guid: 36c6bc9c9e7d2154a9a631d682e31a74, type: 3}
+  hiddenUnarmed: {fileID: 21300000, guid: 36c6bc9c9e7d2154a9a631d682e31a74, type: 3}
+  revealadArmed: {fileID: 21300010, guid: 36c6bc9c9e7d2154a9a631d682e31a74, type: 3}
+  revealedUnarmed: {fileID: 21300012, guid: 36c6bc9c9e7d2154a9a631d682e31a74, type: 3}
   aiFileName: PassiveMonsterAi
 --- !u!114 &11469490
 MonoBehaviour:

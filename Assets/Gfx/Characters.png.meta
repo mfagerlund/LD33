@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 36c6bc9c9e7d2154a9a631d682e31a74
-timeCreated: 1440370012
+timeCreated: 1440373890
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -9,6 +9,9 @@ TextureImporter:
     21300004: Hypno Spiral
     21300006: Monster
     21300008: Savior
+    21300010: Revealed Armed
+    21300012: Revealed Unarmed
+    21300014: Characters_0
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -57,27 +60,27 @@ TextureImporter:
     - name: Passive Monster
       rect:
         serializedVersion: 2
-        x: 11
-        y: 193
-        width: 42
-        height: 51
-      alignment: 9
-      pivot: {x: .494675636, y: .289534628}
+        x: 3
+        y: 189
+        width: 58
+        height: 39
+      alignment: 0
+      pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Armed Passive Monster
       rect:
         serializedVersion: 2
-        x: 65
-        y: 194
-        width: 41
-        height: 52
+        x: 70
+        y: 189
+        width: 55
+        height: 57
       alignment: 9
       pivot: {x: .489091635, y: .27638039}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Hypno Spiral
       rect:
         serializedVersion: 2
-        x: 113
+        x: 137
         y: 189
         width: 65
         height: 63
@@ -88,21 +91,51 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 6
-        y: 2
-        width: 51
-        height: 66
+        y: 7
+        width: 62
+        height: 75
       alignment: 9
-      pivot: {x: .473691761, y: .252663136}
+      pivot: {x: .473691821, y: .383853614}
       border: {x: 0, y: 0, z: 0, w: 0}
     - name: Savior
       rect:
         serializedVersion: 2
-        x: 63
-        y: 2
-        width: 52
-        height: 63
+        x: 74
+        y: 7
+        width: 59
+        height: 74
       alignment: 9
-      pivot: {x: .495699525, y: .290578663}
+      pivot: {x: .484329104, y: .347994834}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Revealed Armed
+      rect:
+        serializedVersion: 2
+        x: 69
+        y: 118
+        width: 56
+        height: 65
+      alignment: 9
+      pivot: {x: .505454302, y: .261716753}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Revealed Unarmed
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 135
+        width: 57
+        height: 38
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: Characters_0
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 13
+        width: 63
+        height: 69
+      alignment: 9
+      pivot: {x: .475153357, y: .322832972}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 

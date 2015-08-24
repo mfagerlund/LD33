@@ -94,17 +94,22 @@ public class Level : MyMonoBehaviour
     {
         AgentsKilled++;
 
-        if (AgentsKilled == 5)
+        if (AgentsKilled == 10)
         {
-            StartGlitch(0.1f, 30f);
+            StartGlitch(0.25f, 30f);
         }
-        if (AgentsKilled == 15)
-        {
-            StartGlitch(0.3f, 30f);
-        }
-        if (AgentsKilled == 30)
+        if (AgentsKilled == 25)
         {
             StartGlitch(0.6f, 30f);
+        }
+        if (AgentsKilled == 50)
+        {
+            StartGlitch(0.9f, 45f);
+        }
+        if (AgentsKilled == 70)
+        {
+            glitching = true;
+            monstersRevealed = true;
         }
     }
 

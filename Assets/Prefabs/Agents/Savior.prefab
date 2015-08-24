@@ -87,8 +87,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 102310}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: .189999998, y: .393999994, z: -1.10000002}
-  m_LocalScale: {x: .899999976, y: .899999976, z: .587108076}
+  m_LocalPosition: {x: .377999991, y: .356999993, z: -1.10000002}
+  m_LocalScale: {x: .600000024, y: .600000024, z: .587108076}
   m_Children: []
   m_Father: {fileID: 482844}
   m_RootOrder: 2
@@ -111,7 +111,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 127314}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.99800014, y: 2.71700001, z: 0}
+  m_LocalPosition: {x: 6.77899981, y: 2.35100007, z: 0}
   m_LocalScale: {x: .600000024, y: .600000024, z: 1}
   m_Children:
   - {fileID: 408808}
@@ -206,6 +206,11 @@ MonoBehaviour:
   deathSound: {fileID: 8300000, guid: 7e67bfbed41e30547a09f660ef1ad842, type: 3}
   walkingSound: {fileID: 8300000, guid: 86ca4c5899385ff489390634a45d9002, type: 3}
   arrivedSound: {fileID: 8300000, guid: 2bf4f0c53d64a2a48b867837b0970459, type: 3}
+  hynotizedIndicator: {fileID: 0}
+  hiddenArmed: {fileID: 0}
+  hiddenUnarmed: {fileID: 0}
+  revealadArmed: {fileID: 0}
+  revealedUnarmed: {fileID: 0}
   aiFileName: SaviorAi
 --- !u!114 &11484572
 MonoBehaviour:
