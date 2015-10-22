@@ -97,6 +97,16 @@ public class SelectionManager : MonoBehaviour
             AudioSource.PlayClipAtPoint(selectSomeone, Vector2.zero, 0.6f);
         }
     }
+    
+    public void SelectAgent(Agent agent)
+    {
+        SelectedAgents.Add(agent);
+        UiFollow2D uiFollow2D = (UiFollow2D)Instantiate(selectedIndicatorPrefab, Vector2.zero, Quaternion.identity);
+        uiFollow2D.sizeExpansion = selectedIndicatorExpansion;
+        uiFollow2D.transform.SetParent(selectedIndicatorParent, true);
+        uiFollow2D.follow = agent.transform;
+        agent.Selected = true;
+    }
 
     private Rect GetSelectionRect()
     {
@@ -136,16 +146,7 @@ public class SelectionManager : MonoBehaviour
             AudioSource.PlayClipAtPoint(selectedSound, SelectedControlledAgents.First().Position, 1.5f);
         }
     }
-
-    private void SelectAgent(Agent agent)
-    {
-        SelectedAgents.Add(agent);
-        UiFollow2D uiFollow2D = (UiFollow2D)Instantiate(selectedIndicatorPrefab, Vector2.zero, Quaternion.identity);
-        uiFollow2D.sizeExpansion = selectedIndicatorExpansion;
-        uiFollow2D.transform.SetParent(selectedIndicatorParent, true);
-        uiFollow2D.follow = agent.transform;
-        agent.Selected = true;
-    }
+ 
 
     private void ClearSelectedAgents()
     {

@@ -31,6 +31,8 @@ public class Level : MyMonoBehaviour
     public Material convertedMonsterMaterial;
     public int AgentsKilled { get; set; }
 
+    private bool _selected = false;
+
     public void Start()
     {
         Instance = this;
@@ -47,6 +49,14 @@ public class Level : MyMonoBehaviour
 
     public void Update()
     {
+        if (!_selected)
+        {
+            _selected = true;
+            foreach (Agent agent in GetSaviors().Take(3))
+            {
+                SelectionManager.Instance.SelectAgent(agent);
+            }
+        }
         if (GetAgents().All(a => a.agentType != AgentType.Savior))
         {
             gameOverMessage.gameObject.SetActive(true);
@@ -75,6 +85,21 @@ public class Level : MyMonoBehaviour
     public void TurnOffGoggles()
     {
         AudioSource.PlayClipAtPoint(againstRegulations, Vector2.zero, 0.6f);
+    }
+
+
+    public void Quit()
+    {
+        Debug.Log("Quitting");
+
+#if UNITY_STANDALONE_WIN
+        if (!Application.isEditor)
+        {
+            System.Diagnostics.Process.GetCurrentProcess().Kill();
+        }
+#else
+        Application.Quit();
+#endif
     }
 
     public void RegisterViolence()
